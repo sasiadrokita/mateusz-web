@@ -1,0 +1,67 @@
+.reveal-text {
+    /* 1. CZAS: Zwiększamy do 2.0s dla mega powolnego płynięcia */
+    transition: transform 2.0s cubic-bezier(0.16, 1, 0.3, 1), 
+                opacity 2.0s ease-out;
+    will-change: transform, opacity;
+}
+
+/* Stan początkowy - tu zmieniamy DYSTANS */
+[data-aos="fade-up"].reveal-text {
+    /* 2. DYSTANS: Zwiększamy z 60px na 150px - tekst wyjeżdża z dużo głębszego dołu */
+    transform: translateY(150px);
+    opacity: 0;
+}
+
+.aos-animate .reveal-text {
+    transform: translateY(0) !important;
+    opacity: 1 !important;
+}
+
+:root { --brand-color: #413124; }
+/* Dodajemy scroll-padding-top o wysokości Twojego menu (ok. 80px) */
+html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 80px; 
+}
+body { font-family: 'Inter', sans-serif; }
+.font-charmonman { font-family: 'Charmonman', cursive; }
+.text-brand { color: #413124; }
+.bg-brand { background-color: #413124; }
+#parallax-bg {
+    will-change: transform;
+    pointer-events: none; /* Zdjęcie nie będzie przechwytywać kliknięć */
+}
+
+.no-scrollbar::-webkit-scrollbar {
+    display: none;
+}
+.no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+
+@media (max-width: 768px) {
+    .parallax-text {
+        transform: none !important;
+        transition: opacity 0.5s ease-out !important;
+    }
+    /* Opcjonalnie: wyłączamy też parallax wideo na telefonach, żeby nie klatkowało */
+    #parallax-bg {
+        transform: none !important;
+    }
+}
+/* INICJAŁY W TEKŚCIE */
+.drop-cap::first-letter {
+    font-family: 'Charmonman', cursive;
+    float: left;
+    font-size: 4rem; /* Skaluje się świetnie */
+    line-height: 0.8;
+    padding-top: 4px;
+    padding-right: 12px;
+    color: #413124; /* Twój kolor brandowy */
+}
+
+/* W trybie ciemnym inicjał może być jaśniejszy */
+.dark .drop-cap::first-letter {
+    color: #d1d5db;
+}

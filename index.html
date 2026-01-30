@@ -1,0 +1,704 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- SEO Basics -->
+    <title>MATEUSZ NOWAK | About me</title>
+    <meta name="description"
+        content="Mateusz Nowak - Digital Networking specialist from Saarland, Germany. PV-Monitoring, Crypto & Tech.">
+    <meta name="author" content="Mateusz Nowak">
+    <meta name="keywords" content="digital networking, PV monitoring, crypto, Saarland, Germany">
+
+    <!-- Open Graph (Facebook, LinkedIn) -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Mateusz Nowak | About Me">
+    <meta property="og:description" content="Digital Networking specialist. PV-Monitoring, Crypto & Tech.">
+    <meta property="og:image" content="https://mateusznowak.x/og-image.jpg">
+    <meta property="og:url" content="https://mateusznowak.x">
+    <meta property="og:site_name" content="Mateusz Nowak">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="@sasiadrokita">
+    <meta name="twitter:title" content="Mateusz Nowak | About Me">
+    <meta name="twitter:description" content="Digital Networking specialist. PV-Monitoring, Crypto & Tech.">
+    <meta name="twitter:image" content="https://mateusznowak.x/og-image.jpg">
+
+    <link rel="icon" type="image/png" href="logo.png">
+    <link rel="apple-touch-icon" href="logo.png">
+
+
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Charmonman:wght@400;700&family=Inter:wght@300;400&display=swap"
+        rel="stylesheet">
+
+    <link rel="stylesheet" href="style.css">
+
+</head>
+
+<body class="antialiased bg-white dark:bg-[#121212] transition-colors duration-500">
+    <div id="scroll-progress" class="fixed top-0 left-0 h-1 bg-[#413124] z-[9999] transition-all duration-150"
+        style="width: 0%; pointer-events: none;">
+    </div>
+    <nav
+        class="fixed top-0 w-full z-50 bg-white/90 dark:bg-black/90 backdrop-blur-md border-b border-gray-100 dark:border-gray-800 py-4 px-6 md:px-20 flex justify-between items-center text-[#413124] dark:text-white">
+        <div class="flex gap-8 items-center">
+            <a href="#hero-section" aria-label="Go to homepage"
+                class="hover:opacity-50 transition flex items-center gap-2">
+                <i data-lucide="home" class="w-5 h-5"></i>
+            </a>
+            <div class="relative group flex items-center">
+                <a href="#about"
+                    class="text-translate cursor-pointer uppercase text-xs tracking-[0.2em] font-bold hover:opacity-50 transition"
+                    data-key="nav-about">
+                    About Me
+                </a>
+
+                <div
+                    class="absolute left-0 top-full pt-4 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300">
+                    <div
+                        class="w-48 bg-white/90 dark:bg-[#121212]/90 backdrop-blur-md border border-[#413124]/10 dark:border-white/10 flex flex-col shadow-xl">
+                        <a href="#about"
+                            class="text-translate px-4 py-3 text-[10px] uppercase tracking-wider hover:bg-[#413124] hover:text-white transition-colors"
+                            data-key="nav-intro">Intro</a>
+                        <a href="#vibe-travel"
+                            class="text-translate px-4 py-3 text-[10px] uppercase tracking-wider hover:bg-[#413124] hover:text-white transition-colors"
+                            data-key="nav-travel">Travel</a>
+                        <a href="#vibe-sport"
+                            class="text-translate px-4 py-3 text-[10px] uppercase tracking-wider hover:bg-[#413124] hover:text-white transition-colors"
+                            data-key="nav-sport">Sport</a>
+                        <a href="#vibe-chill"
+                            class="text-translate px-4 py-3 text-[10px] uppercase tracking-wider hover:bg-[#413124] hover:text-white transition-colors"
+                            data-key="nav-chill">Chill</a>
+                        <a href="#vibe-music"
+                            class="text-translate px-4 py-3 text-[10px] uppercase tracking-wider hover:bg-[#413124] hover:text-white transition-colors"
+                            data-key="nav-music">Music</a>
+                        <a href="#website"
+                            class="text-translate px-4 py-3 text-[10px] uppercase tracking-wider hover:bg-[#413124] hover:text-white transition-colors"
+                            data-key="nav-vision">PV-Monitoring Project</a>
+                        <a href="#crypto"
+                            class="text-translate px-4 py-3 text-[10px] uppercase tracking-wider hover:bg-[#413124] hover:text-white transition-colors"
+                            data-key="nav-crypto">Crypto</a>
+
+
+
+                    </div>
+                </div>
+            </div>
+
+            <a href="#contact" data-key="nav-contact"
+                class="text-xs uppercase tracking-[0.2em] hover:opacity-50 transition font-bold text-translate">Contact</a>
+        </div>
+
+        <div class="flex items-center gap-4">
+            <button id="connect-wallet-btn" onclick="connectWallet()"
+                class="flex items-center gap-2 text-[10px] uppercase tracking-widest border border-[#413124]/20 dark:border-white/20 px-3 py-2 rounded-full hover:bg-[#413124] hover:text-white dark:hover:bg-white dark:hover:text-black transition-all duration-300">
+                <i data-lucide="wallet" class="w-4 h-4"></i>
+                <span class="hidden sm:inline">Connect Wallet</span>
+            </button>
+
+            <div class="relative group">
+                <button class="hover:rotate-90 transition-transform duration-500 p-2">
+                    <i data-lucide="settings" class="w-5 h-5"></i>
+                </button>
+                <div
+                    class="absolute right-0 mt-2 w-48 bg-white dark:bg-[#1a1a1a] border border-gray-100 dark:border-gray-800 shadow-xl rounded-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 p-4">
+                    <div class="mb-4 text-[#413124] dark:text-white">
+                        <p class="text-[10px] uppercase tracking-widest opacity-50 mb-2">Language</p>
+                        <div class="flex gap-2 text-xs">
+                            <button onclick="changeLang('de')" class="font-bold hover:opacity-50">DE</button>
+                            <span class="opacity-20">|</span>
+                            <button onclick="changeLang('en')" class="font-bold hover:opacity-50">EN</button>
+                        </div>
+                    </div>
+                    <div class="border-t dark:border-gray-700 pt-4 text-[#413124] dark:text-white">
+                        <p class="text-[10px] uppercase tracking-widest opacity-50 mb-2">Appearance</p>
+                        <div class="flex gap-4">
+                            <button onclick="setTheme('light')" class="hover:scale-110 transition"><i data-lucide="sun"
+                                    class="w-4 h-4"></i></button>
+                            <button onclick="setTheme('dark')" class="hover:scale-110 transition"><i data-lucide="moon"
+                                    class="w-4 h-4"></i></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+    </nav>
+
+    <section id="hero-section"
+        class="relative z-20 h-screen flex items-center justify-end pr-10 md:pr-48 overflow-hidden bg-black">
+        <video id="parallax-bg" autoplay muted loop playsinline preload="metadata" poster="tlo2.jpg"
+            class="absolute inset-0 w-full h-[101%] object-cover opacity-80 z-0 transition-transform duration-1000 ease-out">
+            <source src="tlo.mp4" type="video/mp4">
+            <img src="tlo2.jpg" alt="Background Fallback">
+        </video>
+
+        <div class="absolute inset-0 bg-black/20 z-0"></div>
+
+        <div id="hero-text-container" class="relative z-10 text-right mb-48 md:mr-10" data-aos="fade-left"
+            data-aos-duration="2000">
+            <h1 class="font-charmonman uppercase tracking-widest text-[10vw] md:text-[8vw] lg:text-[6vw] leading-tight drop-shadow-2xl"
+                style="color: #413124;">
+                MATEUSZ<br>NOWAK
+            </h1>
+            <p data-key="hero-sub"
+                class="text-translate tracking-[0.3em] uppercase text-[3vw] md:text-[1.5vw] lg:text-[1vw] mt-4 font-extrabold"
+                style="color: #413124;">
+                Digital Networking
+            </p>
+        </div>
+    </section>
+
+    <section id="about"
+        class="relative z-10 min-h-screen bg-white dark:bg-[#121212] text-[#413124] dark:text-gray-300 py-24 px-6 md:px-20 flex flex-col md:flex-row items-center gap-16 transition-colors duration-500">
+        <div class="max-w-screen-2xl mx-auto flex flex-col lg:flex-row items-center gap-16 w-full">
+            <div class="w-full lg:w-1/2">
+                <h2 class="parallax-text text-translate font-charmonman text-5xl mb-8" data-speed="0.6"
+                    data-key="about-title">
+                    ABOUT ME
+                </h2>
+
+                <p class="parallax-text mb-40 text-lg leading-relaxed opacity-90" data-speed="0.6">
+                    ___________________________________________________</p>
+                <p class="parallax-text drop-cap mb-40 text-translate text-lg md:text-xl leading-relaxed opacity-90"
+                    data-speed="0.6" data-key="about-text">
+
+                    I am Mateusz Nowak, born and raised in Poland, in the Silesia region, but I currently live and work
+                    in Germany,
+                    in Saarland. It is here that I have acquired many of my skills, from roofing to electrical work,
+                    construction, and photovoltaic techniques, through electronics, to digital networking,
+                    which is now my main occupation.
+                </p>
+
+            </div>
+
+            <div class="w-full lg:w-1/2 relative flex justify-center items-center" data-aos="fade-left">
+                <div class="relative w-full md:w-4/5 group">
+                    <div
+                        class="absolute -top-4 -left-4 w-full h-full border-2 border-[#413124] dark:border-gray-500 z-0">
+                    </div>
+
+                    <div id="parallax-gallery"
+                        class="relative group overflow-hidden shadow-2xl transition-transform duration-500 ease-out will-change-transform">
+                        <img id="main-gallery-img" src="me.png" alt="Mateusz"
+                            class="w-full h-[80vh] max-h-[900px] min-h-[400px] object-cover grayscale hover:grayscale-0 transition-all duration-1000 block">
+                        <div
+                            class="absolute bottom-0 left-0 w-full p-4 z-20 bg-gradient-to-t from-black/90 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+
+                            <button onclick="scrollGallery(-200)"
+                                class="absolute left-2 top-1/2 -translate-y-1/2 z-30 bg-white/20 hover:bg-white/40 p-2 rounded-full backdrop-blur-sm transition-all">
+                                <i data-lucide="chevron-left" class="w-6 h-6 text-white"></i>
+                            </button>
+
+                            <div id="thumbnail-slider" class="w-full overflow-x-auto no-scrollbar scroll-smooth px-10">
+                                <div class="flex gap-4 justify-start min-w-max pb-2">
+                                    <img src="me.png" onclick="updateGallery(this.src)"
+                                        class="gallery-thumb w-32 h-32 object-cover flex-shrink-0 cursor-pointer blur-[2px] hover:blur-0 hover:-translate-y-2 transition-all duration-500 shadow-xl overflow-x-auto snap-x snap-mandatory">
+                                    <img src="11.jpg " loading="lazy" onclick="updateGallery(this.src, this)"
+                                        class="gallery-thumb w-32 h-32 object-cover flex-shrink-0 cursor-pointer blur-[2px] hover:blur-0 hover:-translate-y-2 transition-all duration-500 shadow-xl overflow-x-auto snap-x snap-mandatory">
+
+                                    <img src="Nowak2MB.jpg" loading="lazy" onclick="updateGallery(this.src, this)"
+                                        class="gallery-thumb w-32 h-32 object-cover flex-shrink-0 cursor-pointer blur-[2px] hover:blur-0 hover:-translate-y-2 transition-all duration-500 shadow-xl overflow-x-auto snap-x snap-mandatory">
+
+                                    <img src="13mini.jpg" loading="lazy" onclick="updateGallery(this.src, this)"
+                                        class="gallery-thumb w-32 h-32 object-cover flex-shrink-0 cursor-pointer blur-[2px] hover:blur-0 hover:-translate-y-2 transition-all duration-500 shadow-xl overflow-x-auto snap-x snap-mandatory">
+
+                                    <img src="tlo2mini.jpg" loading="lazy" onclick="updateGallery(this.src, this)"
+                                        class="gallery-thumb w-32 h-32 object-cover flex-shrink-0 cursor-pointer blur-[2px] hover:blur-0 hover:-translate-y-2 transition-all duration-500 shadow-xl overflow-x-auto snap-x snap-mandatory">
+
+                                    <img src="12.jpg" loading="lazy" onclick="updateGallery(this.src, this)"
+                                        class="gallery-thumb w-32 h-32 object-cover flex-shrink-0 cursor-pointer blur-[2px] hover:blur-0 hover:-translate-y-2 transition-all duration-500 shadow-xl overflow-x-auto snap-x snap-mandatory">
+
+                                    <img src="14.jpg" loading="lazy" onclick="updateGallery(this.src, this)"
+                                        class="gallery-thumb w-32 h-32 object-cover flex-shrink-0 cursor-pointer blur-[2px] hover:blur-0 hover:-translate-y-2 transition-all duration-500 shadow-xl overflow-x-auto snap-x snap-mandatory">
+                                </div>
+                            </div>
+
+                            <button onclick="scrollGallery(200)"
+                                class="absolute right-2 top-1/2 -translate-y-1/2 z-30 bg-white/20 hover:bg-white/40 p-2 rounded-full backdrop-blur-sm transition-all">
+                                <i data-lucide="chevron-right" class="w-6 h-6 text-white"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="website-goal"
+        class="min-h-[60vh] bg-white dark:bg-[#121212] text-[#413124] dark:text-gray-300 py-24 px-6 md:px-20 flex items-center transition-colors duration-500">
+        <div class="max-w-4xl mx-auto text-center">
+            <p class="parallax-text drop-cap text-translate mb-40 text-lg md:text-xl leading-relaxed opacity-90"
+                data-speed="0.6" data-key="website-goal">
+                This website is my digital legacy. It is a place where I document my projects and information.
+                Instead of getting lost in the chaos of bookmarks, I am building my own knowledge operating system here.
+            </p>
+            <p class="parallax-text drop-cap text-translate text-lg md:text-xl leading-relaxed opacity-90"
+                data-speed="0.6" data-key="website-goal2">
+                It serves as my personal substitute for all social media feeds;
+                a single link that defines my place on the internet.
+            </p>
+        </div>
+    </section>
+
+    <section id="vibe-travel"
+        class="min-h-screen bg-white dark:bg-[#121212] text-[#413124] dark:text-gray-300 py-24 px-6 md:px-20 flex items-center transition-colors duration-500 overflow-hidden">
+        <div class="max-w-screen-2xl mx-auto flex flex-col lg:flex-row items-center gap-16 w-full">
+            <div class="w-full lg:w-1/2">
+                <p class="parallax-text drop-cap text-translate text-lg md:text-xl leading-relaxed opacity-90"
+                    data-speed="0.4" data-key="vibe-travel">
+                    Travel is my way of resetting the compass. I find my peace in the heights—from the familiar trails
+                    of the Polish Beskids
+                    and the granite peaks of the Tatras, to the misty Vosges and the technical challenge of Alpine via
+                    ferratas.
+                    These landscapes are where I test my limits. Currently, I am scaling this passion into a larger
+                    vision:
+                    the first chapters of a global journey with a Round the World ticket, with the raw wilderness of
+                    Norway and Iceland
+                    already mapped out as my first milestones.
+                </p>
+            </div>
+            <div class="w-full lg:w-1/2 aspect-video lg:h-[500px] rounded-lg overflow-hidden border border-[#413124]/10 dark:border-white/10 shadow-2xl"
+                data-aos="fade-left">
+                <iframe
+                    src="https://www.google.com/maps/d/u/0/embed?mid=1PO3f0eKlz6V7RhatDELJyYaVzb6oM3k&ehbc=2E312F&noprof=1"
+                    width="100%" height="100%" style="border:0; filter: grayscale(100%) invert(90%) contrast(90%);"
+                    allowfullscreen="" loading="lazy">
+                </iframe>
+            </div>
+        </div>
+    </section>
+
+    <section id="vibe-sport"
+        class="min-h-screen bg-white dark:bg-[#121212] text-[#413124] dark:text-gray-300 py-24 px-6 md:px-20 flex items-center transition-colors duration-500 overflow-hidden">
+        <div class="max-w-screen-2xl mx-auto flex flex-col lg:flex-row-reverse items-center gap-16 w-full">
+
+            <div class="w-full lg:w-1/2">
+                <p class="parallax-text drop-cap text-translate text-lg md:text-xl leading-relaxed opacity-90 mb-40"
+                    data-speed="0.6" data-key="vibe-sport">
+                    Water is my ultimate element. Training for a triathlon as an amateur is where I build the discipline
+                    that translates into every other aspect of my life. Swimming is the time when I completely
+                    disconnect from notifications and code—it is just me, the rhythm of my breath, and the water. This
+                    physical effort is the reset I need to keep my mind sharp for complex networking challenges.
+                </p>
+                <p class="parallax-text drop-cap text-translate text-lg md:text-xl leading-relaxed opacity-90"
+                    data-speed="0.6" data-key="vibe-nutrition">
+                    Sport, combined with proper nutrition, allows me to stay in peak shape despite being 37. It's about
+                    more than just calories; it's about fueling the body and mind for the long run, both in training and
+                    in the technical world of crypto and tech.
+                </p>
+            </div>
+
+            <div class="w-full lg:w-1/2 relative min-h-[650px] md:min-h-[750px]" data-aos="fade-right">
+
+                <!-- Polaroid z VIDEO -->
+                <div
+                    class="absolute top-[5%] left-[10%] z-10 transform -rotate-6 group hover:z-50 transition-all duration-500 hover:scale-110">
+                    <div class="p-2 bg-white dark:bg-[#1a1a1a] shadow-xl border border-black/5 dark:border-white/10">
+                        <video
+                            class="hover-video w-24 sm:w-32 md:w-40 lg:w-48 aspect-[3/4] object-cover grayscale hover:grayscale-0 transition-all duration-700 cursor-pointer"
+                            poster="sport1.webp" muted loop playsinline preload="metadata">
+                            <source src="sport1.webm" type="video/webm">
+                            <source src="sport1.mp4" type="video/mp4"> <!-- Fallback dla Safari -->
+                        </video>
+                    </div>
+                </div>
+
+                <!-- Polaroid ze ZDJĘCIEM -->
+
+                <div
+                    class="absolute top-[10%] left-[45%] z-20 transform rotate-3 group hover:z-50 transition-all duration-500 hover:scale-110">
+                    <div class="p-2 bg-white dark:bg-[#1a1a1a] shadow-xl border border-black/5 dark:border-white/10">
+                        <img src="food1.webp"
+                            class="w-24 sm:w-32 md:w-40 lg:w-48 aspect-[3/4] object-cover grayscale hover:grayscale-0 transition-all duration-700">
+                    </div>
+                </div>
+
+                <!--  -->
+
+                <div
+                    class="absolute top-[25%] left-[5%] z-30 transform -rotate-12 group hover:z-50 transition-all duration-500 hover:scale-110">
+                    <div class="p-2 bg-white dark:bg-[#1a1a1a] shadow-xl border border-black/5 dark:border-white/10">
+                        <img src="sport2.webp"
+                            class="w-32 md:w-48 h-auto grayscale hover:grayscale-0 transition-all duration-700">
+                    </div>
+                </div>
+
+                <div
+                    class="absolute top-[30%] left-[35%] z-40 transform rotate-6 group hover:z-50 transition-all duration-500 hover:scale-110">
+                    <div class="p-2 bg-white dark:bg-[#1a1a1a] shadow-2xl border border-black/5 dark:border-white/10">
+                        <img src="food2.webp"
+                            class="w-24 sm:w-32 md:w-40 lg:w-48 aspect-[3/4] object-cover grayscale hover:grayscale-0 transition-all duration-700">
+                    </div>
+                </div>
+
+                <div
+                    class="absolute top-[15%] left-[65%] z-10 transform rotate-12 group hover:z-50 transition-all duration-500 hover:scale-110">
+                    <div class="p-2 bg-white dark:bg-[#1a1a1a] shadow-xl border border-black/5 dark:border-white/10">
+                        <img src="sport3.webp"
+                            class="w-24 sm:w-32 md:w-40 lg:w-48 aspect-[3/4] object-cover grayscale hover:grayscale-0 transition-all duration-700">
+                    </div>
+                </div>
+
+                <div
+                    class="absolute top-[70%] left-[20%] z-50 transform rotate-2 group hover:z-50 transition-all duration-500 hover:scale-110">
+                    <div class="p-2 bg-white dark:bg-[#1a1a1a] shadow-xl border border-black/5 dark:border-white/10">
+                        <video
+                            class="hover-video w-24 sm:w-32 md:w-40 lg:w-48 aspect-[3/4] object-cover grayscale hover:grayscale-0 transition-all duration-700 cursor-pointer"
+                            poster="sport4.webp" muted loop playsinline preload="metadata">
+                            <source src="sport4.webm" type="video/webm">
+                            <source src="sport4.mp4" type="video/mp4"> <!-- Fallback dla Safari -->
+                        </video>
+                    </div>
+                </div>
+
+                <!-- <div class="absolute top-[55%] left-[50%] z-30 transform rotate-6 group hover:z-50 transition-all duration-500 hover:scale-110"> -->
+
+
+                <div
+                    class="absolute top-[40%] left-[60%] z-40 transform -rotate-12 group hover:z-50 transition-all duration-500 hover:scale-110">
+                    <div class="p-2 bg-white dark:bg-[#1a1a1a] shadow-xl border border-black/5 dark:border-white/10">
+                        <img src="sport7.webp"
+                            class="w-24 sm:w-32 md:w-40 lg:w-48 aspect-[3/4] object-cover grayscale hover:grayscale-0 transition-all duration-700">
+                    </div>
+                </div>
+
+                <div
+                    class="absolute top-[50%] left-[10%] z-20 transform -rotate-3 group hover:z-50 transition-all duration-500 hover:scale-110">
+                    <div class="p-2 bg-white dark:bg-[#1a1a1a] shadow-2xl border border-black/5 dark:border-white/10">
+                        <img src="sport5.webp"
+                            class="w-24 sm:w-32 md:w-40 lg:w-48 aspect-[3/4] object-cover grayscale hover:grayscale-0 transition-all duration-700">
+                    </div>
+                </div>
+
+                <div
+                    class="absolute top-[65%] left-[60%] z-10 transform -rotate-6 group hover:z-50 transition-all duration-500 hover:scale-110">
+                    <div class="p-2 bg-white dark:bg-[#1a1a1a] shadow-xl border border-black/5 dark:border-white/10">
+                        <img src="sport6.webp"
+                            class="w-24 sm:w-32 md:w-40 lg:w-48 aspect-[3/4] object-cover grayscale hover:grayscale-0 transition-all duration-700">
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <section id="vibe-chill"
+        class="min-h-screen bg-white dark:bg-[#121212] text-[#413124] dark:text-gray-300 py-24 px-6 md:px-20 flex items-center transition-colors duration-500 overflow-hidden">
+        <div class="max-w-screen-2xl mx-auto flex flex-col lg:flex-row items-center gap-16 w-full">
+
+            <div class="w-full lg:w-1/2">
+                <p class="parallax-text drop-cap text-translate text-lg md:text-xl leading-relaxed opacity-90 mb-40"
+                    data-speed="0.6" data-key="vibe-chill">
+                    True growth requires moments of absolute stillness. For me, that place is the sauna—a ritual
+                    of heat and silence that strips away the noise of the digital world. It is where my best ideas are
+                    born,
+                    in the space between intense heat and the refreshing cold.
+                </p>
+
+                <p class="parallax-text drop-cap text-translate text-lg md:text-xl leading-relaxed opacity-90 mb-40"
+                    data-speed="0.6" data-key="vibe-chill-library">
+                    When I am not in the water or at my desk, you will find me in my library.
+                    I value the weight of a real book and the depth of focused reading.
+                </p>
+            </div>
+
+            <div class="w-full lg:w-2/3 h-[500px] flex items-end gap-2 group/shelf" data-aos="fade-left">
+
+                <div
+                    class="relative h-[80%] flex-1 bg-[#2c2c2c] border-l border-white/10 transition-all duration-500 hover:flex-[4] group/book overflow-hidden cursor-help">
+                    <div
+                        class="absolute inset-0 p-8 flex flex-col justify-between opacity-0 group-hover/book:opacity-100 transition-opacity duration-700 delay-100">
+                        <p class="text-white/60 text-xs uppercase tracking-widest">Ray Dalio</p>
+                        <blockquote class="text-white text-lg md:text-xl italic leading-relaxed">
+                            "Pain plus reflection equals progress."
+                        </blockquote>
+                        <p class="text-emerald-500 font-bold text-sm">Principles</p>
+                    </div>
+                    <div class="absolute inset-0 flex items-center justify-center group-hover/book:hidden">
+                        <span
+                            class="rotate-90 whitespace-nowrap uppercase tracking-[0.3em] text-[10px] opacity-40">Principles</span>
+                    </div>
+                </div>
+
+                <div
+                    class="relative h-[90%] flex-1 bg-[#413124] border-l border-white/10 transition-all duration-500 hover:flex-[4] group/book overflow-hidden cursor-help">
+                    <div
+                        class="absolute inset-0 p-8 flex flex-col justify-between opacity-0 group-hover/book:opacity-100 transition-opacity duration-700 delay-100">
+                        <p class="text-white/60 text-xs uppercase tracking-widest">Robert Martin</p>
+                        <blockquote class="text-white text-lg md:text-xl italic leading-relaxed">
+                            "Truth can only be found in one place: the code."
+                        </blockquote>
+                        <p class="text-emerald-500 font-bold text-sm">Clean Code</p>
+                    </div>
+                    <div class="absolute inset-0 flex items-center justify-center group-hover/book:hidden">
+                        <span
+                            class="rotate-90 whitespace-nowrap uppercase tracking-[0.3em] text-[10px] opacity-40">Clean
+                            Code</span>
+                    </div>
+                </div>
+
+                <div
+                    class="relative h-[85%] flex-1 bg-[#1a1a1a] border-l border-white/10 transition-all duration-500 hover:flex-[4] group/book overflow-hidden cursor-help">
+                    <div
+                        class="absolute inset-0 p-8 flex flex-col justify-between opacity-0 group-hover/book:opacity-100 transition-opacity duration-700 delay-100">
+                        <p class="text-white/60 text-xs uppercase tracking-widest">Saifedean Ammous</p>
+                        <blockquote class="text-white text-lg md:text-xl italic leading-relaxed">
+                            "Bitcoin is the hardest money ever invented."
+                        </blockquote>
+                        <p class="text-emerald-500 font-bold text-sm">The Bitcoin Standard</p>
+                    </div>
+                    <div class="absolute inset-0 flex items-center justify-center group-hover/book:hidden">
+                        <span
+                            class="rotate-90 whitespace-nowrap uppercase tracking-[0.3em] text-[10px] opacity-40">Bitcoin
+                            Standard</span>
+                    </div>
+                </div>
+
+                <div
+                    class="relative h-[95%] flex-1 bg-[#3a3a3a] border-l border-white/10 transition-all duration-500 hover:flex-[4] group/book overflow-hidden cursor-help">
+                    <div
+                        class="absolute inset-0 p-8 flex flex-col justify-between opacity-0 group-hover/book:opacity-100 transition-opacity duration-700 delay-100">
+                        <p class="text-white/60 text-xs uppercase tracking-widest">Marcus Aurelius</p>
+                        <blockquote class="text-white text-lg md:text-xl italic leading-relaxed">
+                            "The soul becomes dyed with the color of its thoughts."
+                        </blockquote>
+                        <p class="text-emerald-500 font-bold text-sm">Meditations</p>
+                    </div>
+                    <div class="absolute inset-0 flex items-center justify-center group-hover/book:hidden">
+                        <span
+                            class="rotate-90 whitespace-nowrap uppercase tracking-[0.3em] text-[10px] opacity-40">Meditations</span>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <section id="vibe-music"
+        class="min-h-screen bg-white dark:bg-[#121212] text-[#413124] dark:text-gray-300 py-24 px-6 md:px-20 flex items-center transition-colors duration-500 overflow-hidden">
+        <div class="max-w-screen-2xl mx-auto flex flex-col lg:flex-row-reverse items-center gap-16 w-full">
+            <div class="w-full lg:w-1/2">
+                <p class="parallax-text drop-cap text-translate text-lg md:text-xl leading-relaxed opacity-90 mb-40"
+                    data-speed="0.6" data-key="vibe-music">
+                    I love discovering new music, regardless of the genre. It's best experienced behind the wheel –
+                    long drives are the perfect time for new sounds, and Spotify is the ideal tool for that. </p>
+
+                <p class="parallax-text drop-cap text-translate mb-40 text-lg md:text-xl leading-relaxed opacity-90"
+                    data-speed="0.6" data-key="vibe-entertainment-text">
+                    Of course, it's not all about work and sports. When it's time for a full reset, the couch wins –
+                    that's when Netflix, YouTube, or Twitch come in. It's my digital window to the world when I just
+                    need to 'power down' the system.
+                </p>
+                <!-- BUTTONY Netflix, YouTube, Twitch -->
+                <div class="parallax-text flex gap-6 opacity-30 hover:opacity-100 transition-opacity duration-500 justify-center md:justify-start grayscale"
+                    data-speed="0.6">
+                    <!-- <div class="group relative">
+                    <div class="absolute inset-0 bg-red-600/20 blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                    <span class="relative text-[10px] uppercase tracking-[0.3em] border border-[#413124] dark:border-white px-4 py-2 block transition-all duration-500 group-hover:border-red-600 group-hover:text-red-600 group-hover:shadow-[0_0_15px_rgba(220,38,38,0.3)] cursor-pointer">
+                        Netflix
+                    </span>
+                </div>
+
+                <div class="group relative">
+                    <div class="absolute inset-0 bg-red-500/20 blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                    <span class="relative text-[10px] uppercase tracking-[0.3em] border border-[#413124] dark:border-white px-4 py-2 block transition-all duration-500 group-hover:border-[#FF0000] group-hover:text-[#FF0000] group-hover:shadow-[0_0_15px_rgba(255,0,0,0.3)] cursor-pointer">
+                        YouTube
+                    </span>
+                </div>
+
+                <div class="group relative">
+                    <div class="absolute inset-0 bg-purple-600/20 blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                    <span class="relative text-[10px] uppercase tracking-[0.3em] border border-[#413124] dark:border-white px-4 py-2 block transition-all duration-500 group-hover:border-[#9146FF] group-hover:text-[#9146FF] group-hover:shadow-[0_0_15px_rgba(145,70,255,0.3)] cursor-pointer">
+                        Twitch
+                    </span>
+                </div> -->
+                </div>
+            </div>
+            <!-- Spotify Player -->
+            <div class="w-full lg:w-1/2 flex justify-center" data-aos="fade-left">
+                <div id="spotify-player"
+                    class="relative overflow-hidden group p-6 rounded-2xl border border-[#413124]/5 dark:border-white/10 bg-white/5 backdrop-blur-md shadow-2xl transition-all duration-500 hover:border-emerald-500/20">
+                    <div class="flex flex-col md:flex-row items-center gap-8">
+
+                        <div class="relative w-32 h-32 flex-shrink-0">
+                            <img id="track-art" src="placeholder-music.png" alt="Album Art"
+                                class="w-full h-full object-cover rounded-lg shadow-lg">
+                            <div id="music-bars" class="absolute -bottom-2 -right-2 flex gap-1 items-end h-8">
+                                <div class="w-1 bg-emerald-500 animate-[music-bar_0.8s_ease-in-out_infinite]"></div>
+                                <div class="w-1 bg-emerald-500 animate-[music-bar_1.2s_ease-in-out_infinite]"></div>
+                                <div class="w-1 bg-emerald-500 animate-[music-bar_1.0s_ease-in-out_infinite]"></div>
+                            </div>
+                        </div>
+
+                        <div class="flex-grow text-center md:text-left">
+                            <h4 id="track-name"
+                                class="text-xl md:text-2xl font-bold tracking-tight text-[#413124] dark:text-white">
+                                Currently Offline</h4>
+                            <p id="track-artist" class="text-sm opacity-60 mt-1 uppercase tracking-widest">Spotify API
+                                on hold</p>
+
+                            <div class="mt-6 w-full h-1 bg-[#413124]/10 dark:bg-white/10 rounded-full overflow-hidden">
+                                <div id="track-progress"
+                                    class="w-1/3 h-full bg-emerald-500/50 transition-all duration-1000"></div>
+                            </div>
+                        </div>
+
+                        <div class="opacity-20 group-hover:opacity-100 transition-opacity duration-500">
+                            <svg class="w-8 h-8 fill-current text-emerald-500" viewBox="0 0 24 24">
+                                <path
+                                    d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.508 17.302c-.223.367-.704.482-1.071.259-2.987-1.825-6.747-2.239-11.175-1.229-.42.096-.84-.173-.936-.592-.096-.42.173-.84.592-.936 4.851-1.11 9.006-.633 12.33 1.401.368.223.483.704.26 1.071zm1.47-3.255c-.281.457-.881.606-1.338.325-3.42-2.102-8.634-2.712-12.678-1.485-.515.156-1.054-.139-1.21-.654-.157-.516.138-1.055.654-1.211 4.62-1.402 10.37-.714 14.248 1.668.457.281.607.881.325 1.338zm.126-3.414c-4.1-2.435-10.852-2.658-14.77-1.468-.629.191-1.294-.163-1.485-.792-.19-.629.163-1.294.792-1.485 4.505-1.367 11.977-1.104 16.7 1.696.565.335.753 1.063.418 1.628-.335.565-1.064.754-1.629.419z" />
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+            </div>
+    </section>
+
+
+    <section id="website"
+        class="min-h-screen bg-white dark:bg-[#121212] text-[#413124] dark:text-gray-300 py-24 px-6 md:px-20 flex items-center transition-colors duration-500 overflow-hidden">
+        <div class="max-w-screen-2xl mx-auto flex flex-col lg:flex-row-reverse items-center gap-16 w-full">
+
+            <div class="w-full lg:w-2/3">
+                <p class="parallax-text drop-cap mb-20 text-translate text-lg md:text-xl leading-relaxed opacity-90"
+                    data-speed="0.6" data-key="website-project-intro">
+                    My most important current endeavor is the PV-Monitoring project.
+                    It is a tool I am developing independently to analyze the status of networks and energy systems in
+                    real-time.
+                    This is where my experience in digital networking meets the practical application of monitoring. At
+                    the same time,
+                    I dedicate my time to the continuous development of this website and exploring the possibilities of
+                    the CachyOS distribution.
+                    Working with Arch Linux-based systems allows me to maximize environment optimization, which combined
+                    with
+                    learning modern web technologies, gives me full control over my digital ecosystem.
+                </p>
+            </div>
+
+            <div class="w-full lg:w-1/3 flex flex-col gap-12">
+
+                <a href="pv-monitoring.html"
+                    class="group relative block rounded-lg border border-[#413124]/20 dark:border-white/10 shadow-2xl overflow-hidden transition-all duration-500 hover:border-emerald-500/50"
+                    data-aos="fade-right">
+
+                    <img src="pvmonitor.webp" alt="CachyOS Terminal PV-Monitoring"
+                        class="w-full h-auto object-cover opacity-80 group-hover:opacity-100 group-hover:scale-105 transition-all duration-700">
+
+                    <div
+                        class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent flex items-end p-6">
+                        <div
+                            class="w-full py-3 border border-emerald-500/30 backdrop-blur-md text-center bg-black/20 group-hover:bg-emerald-500/20 transition-all duration-500">
+                            <span class="text-emerald-500 uppercase tracking-[0.2em] font-bold text-xs">
+                                Explore PV-Monitoring →
+                            </span>
+                        </div>
+                    </div>
+                </a>
+
+                <div class="group relative block rounded-lg border border-[#413124]/20 dark:border-white/10 shadow-2xl overflow-hidden transition-all duration-500 hover:border-emerald-500/50"
+                    data-aos="fade-right" data-aos-delay="200">
+
+                    <img src="grafana_dashboard_screenshot.webp" alt="Grafana PV-Monitoring Dashboard"
+                        class="w-full h-auto object-cover opacity-80 group-hover:opacity-100 group-hover:scale-105 transition-all duration-700">
+
+                    <div
+                        class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent flex items-end p-6">
+                        <div
+                            class="w-full py-3 border border-emerald-500/30 backdrop-blur-md text-center bg-black/20 group-hover:bg-emerald-500/20 transition-all duration-500">
+                            <span class="text-emerald-500 uppercase tracking-[0.2em] font-bold text-xs">
+                                Data Visualisation (Grafana)
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- SEKCJE CRYPTO -->
+    <section id="crypto" class="py-12 bg-gray-50 dark:bg-[#1a1a1a] border-y border-gray-200 dark:border-gray-800">
+        <div
+            class="max-w-4xl mx-auto px-6 flex flex-wrap justify-center gap-12 items-center text-[#413124] dark:text-gray-400">
+            <div class="text-center">
+                <p data-key="label-inv" class="text-translate text-[10px] uppercase tracking-widest opacity-60">My
+                    investments</p>
+            </div>
+            <div class="text-center">
+                <p data-key="label-trade" class="text-translate text-[10px] uppercase tracking-widest opacity-60">Things
+                    I trade</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="bg-[#1a1a1a] border-b border-[#413124]/30 py-2">
+        <div class="tradingview-widget-container">
+            <script type="text/javascript"
+                src="https://s3.tradingview.com/external-embedding/embed-widget-ticker-tape.js" async>
+                    {
+                        "symbols": [
+                            { "proName": "BITSTAMP:BTCUSD", "title": "Bitcoin" },
+                            { "proName": "BITSTAMP:XRPUSD", "title": "XRP" },
+                            { "proName": "OANDA:XAUUSD", "title": "Gold" },
+                            { "proName": "OANDA:XAGUSD", "title": "Silver" },
+                            { "proName": "FX_IDC:USDEUR", "title": "USD/EUR" },
+                            { "proName": "BITSTAMP:ETHUSD", "title": "Ethereum" }
+                        ],
+                            "showSymbolLogo": true, "colorTheme": "dark", "isTransparent": true, "displayMode": "adaptive", "locale": "en"
+                    }
+                </script>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer id="contact"
+        class="bg-white dark:bg-black text-[#413124] dark:text-white py-20 px-6 text-center transition-colors duration-500">
+        <div data-aos="zoom-in">
+            <h2 data-key="contact-title" class="text-translate font-charmonman text-5xl mb-12 uppercase">Contact</h2>
+
+            <a href="https://mateusznowak.x"
+                class="inline-block text-sm tracking-widest mb-12 transition-all duration-300 hover:opacity-50 hover:-translate-y-1 transform font-medium uppercase">
+                MATEUSZNOWAK.X
+            </a>
+
+            <div class="flex justify-center gap-12">
+                <div class="group relative transition-all duration-300 ease-out hover:scale-125 hover:-translate-y-2 cursor-pointer"
+                    onclick="copyEmail(this)">
+
+                    <span
+                        class="absolute -top-10 left-1/2 -translate-x-1/2 bg-[#413124] text-white text-[10px] py-1 px-2 rounded opacity-0 transition-opacity duration-300 pointer-events-none tooltip-text">
+                        COPIED!
+                    </span>
+
+                    <i data-lucide="mail" class="w-8 h-8 transition-all duration-300 group-hover:opacity-50"></i>
+                </div>
+
+                <a href="https://github.com/sasiadrokita" target="_blank"
+                    class="group transition-all duration-300 ease-out hover:scale-125 hover:-translate-y-2">
+                    <i data-lucide="github" class="w-8 h-8 transition-all duration-300 group-hover:opacity-50"></i>
+                </a>
+
+                <a href="https://x.com/sasiadrokita" target="_blank"
+                    class="group transition-all duration-300 ease-out hover:scale-125 hover:-translate-y-2">
+                    <i data-lucide="twitter" class="w-8 h-8 transition-all duration-300 group-hover:opacity-50"></i>
+                </a>
+
+                <a href="https://www.linkedin.com/in/mateusz-nowak-496016206/" target="_blank"
+                    class="group transition-all duration-300 ease-out hover:scale-125 hover:-translate-y-2">
+                    <i data-lucide="linkedin" class="w-8 h-8 transition-all duration-300 group-hover:opacity-50"></i>
+                </a>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script src="script.js"></script>
+</body>
+
+</html>

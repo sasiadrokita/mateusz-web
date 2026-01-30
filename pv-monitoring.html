@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MATEUSZ NOWAK | PV-Monitoring</title>
+    <link rel="icon" type="image/png" href="logo.png">
+    <link rel="apple-touch-icon" href="logo.png">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class'
+        }
+    </script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Charmonman:wght@400;700&family=Inter:wght@300;400&display=swap" rel="stylesheet">
+    
+    <style>
+        .reveal-text {
+            /* 1. CZAS: Zwiększamy do 2.0s dla mega powolnego płynięcia */
+            transition: transform 2.0s cubic-bezier(0.16, 1, 0.3, 1), 
+                        opacity 2.0s ease-out;
+            will-change: transform, opacity;
+        }
+
+        /* Stan początkowy - tu zmieniamy DYSTANS */
+        [data-aos="fade-up"].reveal-text {
+            /* 2. DYSTANS: Zwiększamy z 60px na 150px - tekst wyjeżdża z dużo głębszego dołu */
+            transform: translateY(150px);
+            opacity: 0;
+        }
+
+        .aos-animate .reveal-text {
+            transform: translateY(0) !important;
+            opacity: 1 !important;
+        }
+    </style>
+     <style>
+        
+        :root { --brand-color: #413124; }
+        /* Dodajemy scroll-padding-top o wysokości Twojego menu (ok. 80px) */
+        html {
+            scroll-behavior: smooth;
+            scroll-padding-top: 80px; 
+        }
+        body { font-family: 'Inter', sans-serif; }
+        .font-charmonman { font-family: 'Charmonman', cursive; }
+        .text-brand { color: #413124; }
+        .bg-brand { background-color: #413124; }
+        #parallax-bg {
+            will-change: transform;
+            pointer-events: none; /* Zdjęcie nie będzie przechwytywać kliknięć */
+        }
+
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+
+        @media (max-width: 768px) {
+            .parallax-text {
+                transform: none !important;
+                transition: opacity 0.5s ease-out !important;
+            }
+            /* Opcjonalnie: wyłączamy też parallax wideo na telefonach, żeby nie klatkowało */
+            #parallax-bg {
+                transform: none !important;
+            }
+        }
+        /* INICJAŁY W TEKŚCIE */
+        .drop-cap::first-letter {
+            font-family: 'Charmonman', cursive;
+            float: left;
+            font-size: 4rem; /* Skaluje się świetnie */
+            line-height: 0.8;
+            padding-top: 4px;
+            padding-right: 12px;
+            color: #413124; /* Twój kolor brandowy */
+        }
+
+        /* W trybie ciemnym inicjał może być jaśniejszy */
+        .dark .drop-cap::first-letter {
+            color: #d1d5db;
+        }
+
+    </style>
+</head>
+<body class="antialiased bg-white dark:bg-[#121212] transition-colors duration-500">
+    <div id="scroll-progress" 
+        class="fixed top-0 left-0 h-1 bg-red-500 z-[9999] transition-all duration-150" 
+        style="width: 0%; pointer-events: none;">
+    </div>
+    <nav class="fixed top-0 w-full z-50 bg-white/90 dark:bg-black/90 backdrop-blur-md border-b border-gray-100 dark:border-gray-800 py-4 px-6 md:px-20 flex justify-between items-center text-[#413124] dark:text-white">
+        <div class="flex gap-8 items-center">
+            <a href="#presentation" class="hover:opacity-50 transition flex items-center gap-2">
+            <i data-lucide="home" class="w-5 h-5"></i>
+            </a>
+            <a href="#contact" data-key="nav-contact" class="text-xs uppercase tracking-[0.2em] hover:opacity-50 transition font-bold text-translate">Contact</a>
+        </div>
+
+        <div class="relative group">
+            <button class="hover:rotate-90 transition-transform duration-500 p-2">
+                <i data-lucide="settings" class="w-5 h-5"></i>
+            </button>
+            <div class="absolute right-0 mt-2 w-48 bg-white dark:bg-[#1a1a1a] border border-gray-100 dark:border-gray-800 shadow-xl rounded-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 p-4">
+                <div class="mb-4 text-[#413124] dark:text-white">
+                    <p class="text-[10px] uppercase tracking-widest opacity-50 mb-2">Language</p>
+                    <div class="flex gap-2 text-xs">
+                        <button onclick="changeLang('de')" class="font-bold hover:opacity-50">DE</button>
+                        <span class="opacity-20">|</span>
+                        <button onclick="changeLang('en')" class="font-bold hover:opacity-50">EN</button>
+                    </div>
+                </div>
+                <div class="border-t dark:border-gray-700 pt-4 text-[#413124] dark:text-white">
+                    <p class="text-[10px] uppercase tracking-widest opacity-50 mb-2">Appearance</p>
+                    <div class="flex gap-4">
+                        <button onclick="setTheme('light')" class="hover:scale-110 transition"><i data-lucide="sun" class="w-4 h-4"></i></button>
+                        <button onclick="setTheme('dark')" class="hover:scale-110 transition"><i data-lucide="moon" class="w-4 h-4"></i></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <section id="presentation" class="relative z-10 min-h-screen bg-white dark:bg-[#121212] text-[#413124] dark:text-gray-300 py-24 px-6 md:px-20 flex flex-col md:flex-row items-center gap-16 transition-colors duration-500">
+            <div class="max-w-4xl mx-auto">
+                
+                <div class="mb-24" data-aos="fade-up">
+                    <h1 class="text-5xl md:text-8xl font-light tracking-tighter mb-4">
+                        PV-Monitoring
+                    </h1>
+                    <div class="h-[1px] w-24 bg-[#413124] dark:bg-white opacity-20 mb-8"></div>
+                    <p class="text-xs uppercase tracking-[0.5em] opacity-50 italic text-translate" data-key="subtitle">Technical Deep Dive & Documentation</p>
+                </div>
+            </div>
+    </section>
+
+
+
+
+    <footer id="contact" class="bg-white dark:bg-black text-[#413124] dark:text-white py-20 px-6 text-center transition-colors duration-500">
+        <div data-aos="zoom-in">
+            <h2 data-key="contact-title" class="text-translate font-charmonman text-5xl mb-12 uppercase">Contact</h2>
+            
+            <a href="https://mateusznowak.x" class="inline-block text-sm tracking-widest mb-12 transition-all duration-300 hover:opacity-50 hover:-translate-y-1 transform font-medium uppercase">
+                MATEUSZNOWAK.X
+            </a>
+            
+            <div class="flex justify-center gap-12">
+                <div class="group relative transition-all duration-300 ease-out hover:scale-125 hover:-translate-y-2 cursor-pointer" 
+                    onclick="copyEmail(this)">
+                    
+                    <span class="absolute -top-10 left-1/2 -translate-x-1/2 bg-[#413124] text-white text-[10px] py-1 px-2 rounded opacity-0 transition-opacity duration-300 pointer-events-none tooltip-text">
+                        COPIED!
+                    </span>
+
+                    <i data-lucide="mail" class="w-8 h-8 transition-all duration-300 group-hover:opacity-50"></i>
+                </div>
+
+                <a href="https://github.com/sasiadrokita" target="_blank" class="group transition-all duration-300 ease-out hover:scale-125 hover:-translate-y-2">
+                    <i data-lucide="github" class="w-8 h-8 transition-all duration-300 group-hover:opacity-50"></i>
+                </a>
+
+                <a href="https://x.com/sasiadrokita" target="_blank" class="group transition-all duration-300 ease-out hover:scale-125 hover:-translate-y-2">
+                    <i data-lucide="twitter" class="w-8 h-8 transition-all duration-300 group-hover:opacity-50"></i>
+                </a>
+
+                <a href="https://www.linkedin.com/in/mateusz-nowak-496016206/" target="_blank" class="group transition-all duration-300 ease-out hover:scale-125 hover:-translate-y-2">
+                    <i data-lucide="linkedin" class="w-8 h-8 transition-all duration-300 group-hover:opacity-50"></i>
+                </a>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+
+// --- JEDNA FUNKCJA DLA PASKA POSTĘPU I SCROLLING ---
+
+
+// --- ZINTEGROWANY SYSTEM SCROLLOWANIA ---
+    window.addEventListener('scroll', () => {
+        const winScroll = document.documentElement.scrollTop || document.body.scrollTop;
+        const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+        
+        // 1. Obsługa paska postępu
+        const progressBar = document.getElementById("scroll-progress");
+        if (progressBar) {
+            const scrolled = (winScroll / height) * 100;
+            progressBar.style.width = scrolled + "%";
+        }
+
+        // 2. Parallax tła wideo (Hero Section)
+        const bgImage = document.getElementById('parallax-bg');
+        if (bgImage) {
+            // Przesuwamy o 0.4 zamiast 0.6 dla większej płynności
+            bgImage.style.transform = `translateY(${winScroll * 0.4}px)`;
+        }
+
+        // 3. Parallax tekstów (About Me)
+        const scrolls = document.querySelectorAll('.parallax-text');
+        scrolls.forEach(el => {
+            const speed = el.getAttribute('data-speed') || 0.1;
+            const rect = el.getBoundingClientRect();
+            
+            // Animujemy tylko gdy element jest w polu widzenia (oszczędność procesora)
+            if (rect.top < window.innerHeight && rect.bottom > 0) {
+                const centerOffset = window.innerHeight / 2 - rect.top;
+                const yPos = centerOffset * speed;
+                el.style.transform = `translateY(${yPos}px)`;
+            }
+        });
+    });
+
+// --- AOS ANIMATIONS & COPY EMAIL FUNCTION ---
+        AOS.init({ 
+            duration: 2000,
+            once: false,     // Animacja wykona się tylko raz (ikony nie znikną po odjechaniu)
+            mirror: true,   // Animacje będą działać również podczas scrollowania w górę
+            offset: 50,     // Animacja odpali się 50px wcześniej, zanim element wejdzie na ekran
+            anchorPlacement: 'top-bottom' // Animacja odpali się, gdy tylko góra stopki dotknie dołu ekranu
+        });
+
+        lucide.createIcons();
+
+
+        function copyEmail(element) {
+            const email = "mateusz.nowak.zabrze@gmail.com";
+            const tooltip = element.querySelector('.tooltip-text');
+
+            // Kopiowanie do schowka
+            navigator.clipboard.writeText(email).then(() => {
+                // Pokaż dymek
+                tooltip.classList.remove('opacity-0');
+                tooltip.classList.add('opacity-100');
+
+                // Ukryj dymek po 2 sekundach
+                setTimeout(() => {
+                    tooltip.classList.remove('opacity-100');
+                    tooltip.classList.add('opacity-0');
+                }, 2000);
+            }).catch(err => {
+                console.error('Error during copying: ', err);
+            });
+        }
+
+        // DARK MODE LOGIC
+        function setTheme(theme) {
+            if (theme === 'dark') {
+                document.documentElement.classList.add('dark');
+                localStorage.setItem('theme', 'dark');
+            } else {
+                document.documentElement.classList.remove('dark');
+                localStorage.setItem('theme', 'light');
+            }
+        }
+        if (localStorage.theme === 'dark') document.documentElement.classList.add('dark');
+
+
+// TRANSLATIONS DATA
+        const translations = {
+            en: {
+                "nav-contact": "Contact",
+                "contact-title": "Contact",
+                "subtitle": "Technical Deep Dive & Documentation"
+
+            },
+            de: {
+                "nav-contact": "Kontakt",
+                "contact-title": "Kontakt",
+                "subtitle": "Technischer Deep Dive & Dokumentation"
+            },
+        };
+
+        function changeLang(lang) {
+            const elements = document.querySelectorAll('.text-translate');
+            elements.forEach(el => {
+                const key = el.getAttribute('data-key');
+                if (translations[lang][key]) {
+                    el.innerText = translations[lang][key];
+                }
+            });
+            localStorage.setItem('lang', lang);
+        }
+
+        window.onload = () => {
+            const savedLang = localStorage.getItem('lang') || 'en';
+            changeLang(savedLang);
+        };
+
+// --- SKRYPT STERUJĄCY CZASEM WIDEO (Lustrzane odbicie) ---
+        const video = document.getElementById('parallax-bg');
+        const heroSection = document.getElementById('hero-section');
+        const heroText = document.getElementById('hero-text-container');
+
+        if (video && heroSection && heroText) {
+            video.addEventListener('timeupdate', function() {
+                const currentTime = video.currentTime;
+
+                // Przedział: 2s do 4.14s
+                if (currentTime >= 2.02 && currentTime <= 4.14) {
+                    // Ustawienia LUSTRZANE (Do lewej)
+                    heroSection.classList.remove('justify-end', 'pr-10', 'md:pr-48');
+                    heroSection.classList.add('justify-start', 'pl-10', 'md:pl-48');
+                    
+                    heroText.classList.remove('text-right', 'md:mr-10');
+                    heroText.classList.add('text-left', 'md:ml-10');
+                } else {
+                    // Powrót do oryginału (Do prawej)
+                    heroSection.classList.remove('justify-start', 'pl-10', 'md:pl-48');
+                    heroSection.classList.add('justify-end', 'pr-10', 'md:pr-48');
+                    
+                    heroText.classList.remove('text-left', 'md:ml-10');
+                    heroText.classList.add('text-right', 'md:mr-10');
+                }
+            });
+        }
+           
+        function updateGallery(newSrc, clickedElement) {
+            const mainImg = document.getElementById('main-gallery-img');
+            
+            // 1. Zmiana głównego zdjęcia z efektem przejścia
+            mainImg.style.filter = 'blur(10px) opacity(0.5)';
+            setTimeout(() => {
+                mainImg.src = newSrc;
+                mainImg.style.filter = 'none';
+            }, 250);
+
+            // 2. Podświetlanie miniaturki
+            // Najpierw przywracamy blur wszystkim miniaturkom
+            document.querySelectorAll('.gallery-thumb').forEach(thumb => {
+                thumb.classList.add('blur-[2px]');
+                thumb.classList.remove('blur-0', 'ring-2', 'ring-white/50');
+            });
+
+            // Teraz usuwamy blur i dodajemy "blask" wybranej miniaturce
+            if (clickedElement) {
+                clickedElement.classList.remove('blur-[2px]');
+                clickedElement.classList.add('blur-0', 'ring-2', 'ring-white/50');
+            }
+        }
+
+        function scrollGallery(distance) {
+            const slider = document.getElementById('thumbnail-slider');
+            slider.scrollBy({
+                left: distance,
+                behavior: 'smooth'
+            });
+        }
+
+        // Pamiętaj o odświeżeniu ikon Lucide po dodaniu nowych przycisków
+        lucide.createIcons();
+    </script>
+</body>
+</html>
