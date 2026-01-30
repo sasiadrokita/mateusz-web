@@ -6,18 +6,43 @@ tailwind.config = {
 // --- WEB3 WALLET CONNECTION ---
 let userAccount = null;
 
+// Mock Portfolio Data
+const portfolioData = [
+    { name: "MoonToken", symbol: "MOON", amount: "1,200,000", value: "$420.69", change: "+12.5%" },
+    { name: "PepeCloud", symbol: "PEPE", amount: "50,000,000", value: "$150.00", change: "-5.2%" },
+    { name: "SolarSafe", symbol: "SOLAR", amount: "10,500", value: "$280.10", change: "+2.1%" },
+    { name: "ShitCoinX", symbol: "SCX", amount: "999,999,999", value: "$0.01", change: "+6900%" }
+];
+
 async function connectWallet() {
-    if (typeof window.ethereum !== 'undefined') {
+    console.log("[Web3 Debug] Initializing connection...");
+    let provider = window.ethereum;
+
+    // Handle multiple providers or Brave specific injection
+    if (window.ethereum && window.ethereum.providers) {
+        console.log("[Web3 Debug] Multiple providers detected:", window.ethereum.providers.length);
+        provider = window.ethereum.providers.find(p => p.isMetaMask) || window.ethereum.providers[0];
+    }
+
+    if (provider) {
+        console.log("[Web3 Debug] Provider found. isMetaMask:", provider.isMetaMask);
         try {
-            const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
+            const accounts = await provider.request({ method: 'eth_requestAccounts' });
             userAccount = accounts[0];
+            console.log('[Web3 Debug] Accounts linked:', userAccount);
             updateWalletUI(userAccount);
-            console.log('Connected:', userAccount);
+            renderPortfolio();
         } catch (error) {
-            console.error('User denied account access', error);
+            console.error('[Web3 Debug] User denied or error:', error);
+            if (error.code === 4001) {
+                alert("Connection rejected. Please approve the request in MetaMask.");
+            } else {
+                alert("Error connecting: " + error.message);
+            }
         }
     } else {
-        alert('Please install MetaMask to use this feature!');
+        console.error("[Web3 Debug] No window.ethereum detected.");
+        alert('Web3 Provider not detected!\n\nIf you use Brave + MetaMask:\n1. Go to brave://extensions\n2. MetaMask -> Details -> Enable "Allow access to file URLs"\n3. Ensure Brave Wallet is not set as default in Brave settings.');
     }
 }
 
@@ -25,27 +50,90 @@ function updateWalletUI(account) {
     const btn = document.getElementById('connect-wallet-btn');
     if (btn && account) {
         btn.innerHTML = `
-            <i data-lucide="wallet" class="w-4 h-4"></i>
+            <i data-lucide="check-circle" class="w-4 h-4 text-emerald-500"></i>
             ${account.substring(0, 6)}...${account.substring(account.length - 4)}
         `;
-        btn.onclick = null; // Disable click or show meaningful info
+        btn.classList.add('border-emerald-500/50');
+        btn.onclick = null;
         lucide.createIcons();
     }
 }
 
+function renderPortfolio() {
+    const container = document.getElementById('portfolio-list');
+    if (!container) return;
+
+    if (!userAccount) {
+        container.innerHTML = `
+            <div class="text-center py-20 bg-black/20 rounded-2xl border border-dashed border-white/10">
+                <i data-lucide="lock" class="w-12 h-12 mx-auto mb-4 opacity-20"></i>
+                <p class="text-translate opacity-50 italic text-sm" data-key="crypto-locked">
+                    Connect wallet to unlock your shitcoin portfolio...
+                </p>
+            </div>
+        `;
+        lucide.createIcons();
+        return;
+    }
+
+    container.innerHTML = `
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            ${portfolioData.map(coin => `
+                <div class="flex items-center justify-between p-4 bg-white/5 backdrop-blur-md border border-white/10 rounded-2xl hover:bg-white/10 transition-all duration-500 group cursor-pointer">
+                    <div class="flex items-center gap-4">
+                        <div class="w-12 h-12 rounded-full bg-gradient-to-br from-gray-700 to-black flex items-center justify-center font-bold text-white border border-white/10 group-hover:border-emerald-500/50 transition-colors">
+                            ${coin.symbol[0]}
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-white group-hover:text-emerald-400 transition-colors">${coin.name}</h4>
+                            <p class="text-[10px] uppercase tracking-widest opacity-50">${coin.amount} ${coin.symbol}</p>
+                        </div>
+                    </div>
+                    <div class="text-right">
+                        <p class="font-bold text-white">${coin.value}</p>
+                        <p class="text-[10px] ${coin.change.startsWith('+') ? 'text-emerald-500' : 'text-red-500'} font-bold px-2 py-0.5 rounded-full bg-white/5 inline-block">
+                            ${coin.change}
+                        </p>
+                    </div>
+                </div>
+            `).join('')}
+        </div>
+    `;
+    lucide.createIcons();
+}
+
 // Check if already connected
 window.addEventListener('load', async () => {
-    if (typeof window.ethereum !== 'undefined') {
-        try {
-            const accounts = await window.ethereum.request({ method: 'eth_accounts' });
-            if (accounts.length > 0) {
-                userAccount = accounts[0];
-                updateWalletUI(userAccount);
-            }
-        } catch (err) {
-            console.error('Error checking accounts', err);
+    console.log("[Web3 Debug] Page loaded, checking connection state...");
+
+    // Give external providers a moment to inject
+    setTimeout(async () => {
+        let provider = window.ethereum;
+        if (window.ethereum && window.ethereum.providers) {
+            provider = window.ethereum.providers.find(p => p.isMetaMask) || window.ethereum.providers[0];
         }
-    }
+
+        if (provider) {
+            try {
+                const accounts = await provider.request({ method: 'eth_accounts' });
+                if (accounts.length > 0) {
+                    userAccount = accounts[0];
+                    console.log("[Web3 Debug] Already connected:", userAccount);
+                    updateWalletUI(userAccount);
+                    renderPortfolio();
+                } else {
+                    console.log("[Web3 Debug] No accounts currently authorized.");
+                    renderPortfolio();
+                }
+            } catch (err) {
+                console.error('[Web3 Debug] Load check failed:', err);
+                renderPortfolio();
+            }
+        } else {
+            console.warn("[Web3 Debug] No provider found on load.");
+            renderPortfolio();
+        }
+    }, 500); // 500ms delay for injection
 });
 
 // --- AOS ANIMATIONS & COPY EMAIL FUNCTION ---
@@ -181,7 +269,14 @@ const translations = {
         "vibe-chill": "True growth requires moments of absolute stillness. For me, that place is the sauna—a ritual of heat and silence that strips away the noise of the digital world. It is where my best ideas are born, in the space between intense heat and the refreshing cold.",
         "vibe-chill-library": "When I am not in the water or at my desk, you will find me in my library. I value the weight of a real book and the depth of focused reading.",
         "vibe-music": "I love discovering new music, regardless of the genre. It's best experienced behind the wheel – long drives are the perfect time for new sounds, and Spotify is the ideal tool for that.",
-        "vibe-entertainment-text": "Of course, it's not all about work and sports. When it's time for a full reset, the couch wins – that's when Netflix, YouTube, or Twitch come in. It's my digital window to the world when I just need to 'power down' the system."
+        "vibe-entertainment-text": "Of course, it's not all about work and sports. When it's time for a full reset, the couch wins – that's when Netflix, YouTube, or Twitch come in. It's my digital window to the world when I just need to 'power down' the system.",
+        "btn-library": "Explore Full Library",
+        "lib-title": "Library",
+        "lib-author": "Author",
+        "crypto-title": "Crypto Command Center",
+        "crypto-locked": "Connect wallet to unlock your shitcoin portfolio...",
+        "crypto-portfolio-label": "Web3 Portfolio",
+        "crypto-market-label": "Market Tape"
     },
     de: {
         "nav-about": "Über mich",
@@ -208,7 +303,14 @@ const translations = {
         "vibe-chill": "Wahrer Fortschritt erfordert Momente absoluter Ruhe. Für mich ist dieser Ort die Sauna – ein Ritual aus Hitze und Stille, das den Lärm der digitalen Welt abträgt. Dort werden meine besten Ideen geboren, in dem Raum zwischen intensiver Hitze und der erfrischenden Kälte.",
         "vibe-chill-library": "Wenn ich nicht im Wasser oder am Schreibtisch bin, findest du mich in meiner Bibliothek. Ich schätze das Gewicht eines echten Buches und die Tiefe konzentrierten Lesens.",
         "vibe-music": "Ich liebe es, neue Musik zu entdecken, unabhängig vom Genre. Am besten geht das am Steuer – lange Fahrten sind der perfekte Moment für neue Klänge, und Spotify ist dafür das ideale Werkzeug.",
-        "vibe-entertainment-text": "Natürlich dreht sich nicht alles um Arbeit und Sport. Wenn es Zeit für einen vollständigen Reset ist, gewinnt die Couch – dann kommen Netflix, YouTube oder Twitch ins Spiel. Es ist mein digitales Fenster zur Welt, wenn ich einfach nur das System 'herunterfahren' muss."
+        "vibe-entertainment-text": "Natürlich dreht sich nicht alles um Arbeit und Sport. Wenn es Zeit für einen vollständigen Reset ist, gewinnt die Couch – dann kommen Netflix, YouTube oder Twitch ins Spiel. Es ist mein digitales Fenster zur Welt, wenn ich einfach nur das System 'herunterfahren' muss.",
+        "btn-library": "Bibliothek erkunden",
+        "lib-title": "Bibliothek",
+        "lib-author": "Autor",
+        "crypto-title": "Krypto Kommandozentrale",
+        "crypto-locked": "Verbinde dein Wallet, um dein Shitcoin-Portfolio freizuschalten...",
+        "crypto-portfolio-label": "Web3 Portfolio",
+        "crypto-market-label": "Markt-Ticker"
     },
 };
 
