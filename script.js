@@ -14,15 +14,48 @@ const portfolioData = [
     { name: "ShitCoinX", symbol: "SCX", amount: "999,999,999", value: "$0.01", change: "+6900%" }
 ];
 
-async function connectWallet() {
-    console.log("[Web3 Debug] Initializing connection...");
-    let provider = window.ethereum;
+async function getProvider() {
+    console.log("[Web3 Debug] Searching for provider...");
 
-    // Handle multiple providers or Brave specific injection
-    if (window.ethereum && window.ethereum.providers) {
-        console.log("[Web3 Debug] Multiple providers detected:", window.ethereum.providers.length);
-        provider = window.ethereum.providers.find(p => p.isMetaMask) || window.ethereum.providers[0];
+    // 1. Check if already present
+    if (window.ethereum) {
+        return getMetaMaskFromProviders(window.ethereum);
     }
+
+    // 2. Wait for ethereum#initialized event (MetaMask specific)
+    return new Promise((resolve) => {
+        const handleInitialized = () => {
+            window.removeEventListener('ethereum#initialized', handleInitialized);
+            resolve(getMetaMaskFromProviders(window.ethereum));
+        };
+        window.addEventListener('ethereum#initialized', handleInitialized, { once: true });
+
+        // 3. Fallback: poll for 3 seconds
+        let attempts = 0;
+        const interval = setInterval(() => {
+            attempts++;
+            if (window.ethereum) {
+                clearInterval(interval);
+                resolve(getMetaMaskFromProviders(window.ethereum));
+            } else if (attempts > 30) { // 3 seconds
+                clearInterval(interval);
+                resolve(null);
+            }
+        }, 100);
+    });
+}
+
+function getMetaMaskFromProviders(baseProvider) {
+    if (!baseProvider) return null;
+    if (baseProvider.providers) {
+        return baseProvider.providers.find(p => p.isMetaMask) || baseProvider.providers[0];
+    }
+    return baseProvider;
+}
+
+async function connectWallet() {
+    console.log("[Web3 Debug] Connect clicked...");
+    const provider = await getProvider();
 
     if (provider) {
         console.log("[Web3 Debug] Provider found. isMetaMask:", provider.isMetaMask);
@@ -33,16 +66,20 @@ async function connectWallet() {
             updateWalletUI(userAccount);
             renderPortfolio();
         } catch (error) {
-            console.error('[Web3 Debug] User denied or error:', error);
-            if (error.code === 4001) {
-                alert("Connection rejected. Please approve the request in MetaMask.");
-            } else {
-                alert("Error connecting: " + error.message);
-            }
+            console.error('[Web3 Debug] Connection error:', error);
+            alert("Connection error: " + (error.message || "Unknown error"));
         }
     } else {
-        console.error("[Web3 Debug] No window.ethereum detected.");
-        alert('Web3 Provider not detected!\n\nIf you use Brave + MetaMask:\n1. Go to brave://extensions\n2. MetaMask -> Details -> Enable "Allow access to file URLs"\n3. Ensure Brave Wallet is not set as default in Brave settings.');
+        console.error("[Web3 Debug] NO provider detected after polling.");
+        const isLocal = window.location.protocol === 'file:';
+        let msg = 'Web3 Provider (MetaMask) not detected!\n\n';
+        if (isLocal) {
+            msg += '⚠️ You are using the "file://" protocol. Browser extensions often block local files.\n\n';
+            msg += 'SOLUTION:\n1. Open brave://extensions\n2. MetaMask -> Details -> Enable "Allow access to file URLs"\n3. Restart browser.';
+        } else {
+            msg += 'Please ensure MetaMask is installed and enabled.';
+        }
+        alert(msg);
     }
 }
 
@@ -102,39 +139,34 @@ function renderPortfolio() {
     lucide.createIcons();
 }
 
-// Check if already connected
-window.addEventListener('load', async () => {
-    console.log("[Web3 Debug] Page loaded, checking connection state...");
+// Try to reconnect on load
+async function initSession() {
+    console.log("[Web3 Debug] Initializing session...");
+    const provider = await getProvider();
 
-    // Give external providers a moment to inject
-    setTimeout(async () => {
-        let provider = window.ethereum;
-        if (window.ethereum && window.ethereum.providers) {
-            provider = window.ethereum.providers.find(p => p.isMetaMask) || window.ethereum.providers[0];
-        }
-
-        if (provider) {
-            try {
-                const accounts = await provider.request({ method: 'eth_accounts' });
-                if (accounts.length > 0) {
-                    userAccount = accounts[0];
-                    console.log("[Web3 Debug] Already connected:", userAccount);
-                    updateWalletUI(userAccount);
-                    renderPortfolio();
-                } else {
-                    console.log("[Web3 Debug] No accounts currently authorized.");
-                    renderPortfolio();
-                }
-            } catch (err) {
-                console.error('[Web3 Debug] Load check failed:', err);
+    if (provider) {
+        try {
+            const accounts = await provider.request({ method: 'eth_accounts' });
+            if (accounts.length > 0) {
+                userAccount = accounts[0];
+                console.log("[Web3 Debug] Already connected:", userAccount);
+                updateWalletUI(userAccount);
+                renderPortfolio();
+            } else {
+                console.log("[Web3 Debug] Not connected.");
                 renderPortfolio();
             }
-        } else {
-            console.warn("[Web3 Debug] No provider found on load.");
+        } catch (err) {
+            console.error('[Web3 Debug] Reconnect failed:', err);
             renderPortfolio();
         }
-    }, 500); // 500ms delay for injection
-});
+    } else {
+        console.warn("[Web3 Debug] No provider for session init.");
+        renderPortfolio();
+    }
+}
+
+window.addEventListener('load', initSession);
 
 // --- AOS ANIMATIONS & COPY EMAIL FUNCTION ---
 // Moved AOS init to DOMContentLoaded or just script execution if defer used
