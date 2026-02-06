@@ -102,7 +102,7 @@ function renderPortfolio() {
 
     if (!userAccount) {
         container.innerHTML = `
-            <div class="text-center py-20 bg-black/20 rounded-2xl border border-dashed border-white/10">
+            <div class="text-center py-20 bg-black/5 dark:bg-white/5 rounded-2xl border border-dashed border-[#413124]/10 dark:border-white/10 text-[#413124] dark:text-white">
                 <i data-lucide="lock" class="w-12 h-12 mx-auto mb-4 opacity-20"></i>
                 <p class="text-translate opacity-50 italic text-sm" data-key="crypto-locked">
                     Connect wallet to unlock your shitcoin portfolio...
@@ -166,45 +166,90 @@ async function initSession() {
     }
 }
 
-window.addEventListener('load', initSession);
+
 
 // --- AOS ANIMATIONS & COPY EMAIL FUNCTION ---
-// Moved AOS init to DOMContentLoaded or just script execution if defer used
+// Moved AOS init to DOMContentLoaded
 document.addEventListener('DOMContentLoaded', () => {
     AOS.init({
-        duration: 2000,
-        once: false,     // Animacja wykona się tylko raz (ikony nie znikną po odjechaniu)
-        mirror: true,   // Animacje będą działać również podczas scrollowania w górę
-        offset: 50,     // Animacja odpali się 50px wcześniej, zanim element wejdzie na ekran
-        anchorPlacement: 'top-bottom' // Animacja odpali się, gdy tylko góra stopki dotknie dołu ekranu
+        duration: 800,   // Skrócony czas dla płynności (zamiast 2000)
+        once: true,      // Animacja tylko raz - prevents glitching on weak devices
+        mirror: false,   // Disable mirror for better performance
+        offset: 50,
+        anchorPlacement: 'top-bottom'
     });
 
     lucide.createIcons();
 
-    // --- HOVER VIDEO PLAYER ---
-    const hoverVideos = document.querySelectorAll('.hover-video');
+    // ... (reszta kodu hover video)
+});
 
-    hoverVideos.forEach(video => {
-        // Play on hover
-        video.addEventListener('mouseenter', function () {
-            this.play().catch(e => console.log('Autoplay blocked:', e));
-        });
+// --- GALERIA ZDJĘĆ (ZOPTYMALIZOWANA) ---
+let currentGalleryTimeout = null;
 
-        // Pause + reset on leave
-        video.addEventListener('mouseleave', function () {
-            this.pause();
-            this.currentTime = 0;
-        });
+function updateGallery(newSrc, clickedElement) {
+    const mainImg = document.getElementById('main-gallery-img');
+    if (!mainImg) return;
 
-        // Dla urządzeń dotykowych - toggle play/pause
-        video.addEventListener('touchstart', function (e) {
-            if (this.paused) {
-                this.play();
-            } else {
-                this.pause();
-            }
-        }, { passive: true });
+    // Jeśli kliknięto to samo zdjęcie, nic nie rób
+    if (mainImg.src.includes(newSrc)) return;
+
+    // 1. Dodaj klasę zanikania
+    mainImg.classList.add('fading-out');
+
+    // 2. Wyczyść poprzedni timeout jeśli użytkownik szybko klika
+    if (currentGalleryTimeout) clearTimeout(currentGalleryTimeout);
+
+    // 3. Czekaj na zaniknięcie (300ms zgodnie z CSS) i załaduj nowe
+    currentGalleryTimeout = setTimeout(() => {
+        // Preload nowego zdjęcia w tle (opcjonalnie, ale browser cache zazwyczaj wystarcza przy małych plikach)
+        // Zmieniamy src
+        mainImg.src = newSrc;
+
+        // Ważne: czekamy chwilę aż przeglądarka "chwyci" nowe src, zanim zdejmiemy opacity
+        mainImg.onload = () => {
+            mainImg.classList.remove('fading-out');
+        };
+        // Fallback gdyby onload nie zadziałał (np. cache)
+        setTimeout(() => {
+            mainImg.classList.remove('fading-out');
+        }, 50);
+
+    }, 300);
+
+    // 4. Obsługa miniaturek (od razu)
+    document.querySelectorAll('.gallery-thumb').forEach(thumb => {
+        thumb.classList.add('blur-[2px]');
+        thumb.classList.remove('blur-0', 'ring-2', 'ring-white/50');
     });
+
+    if (clickedElement) {
+        clickedElement.classList.remove('blur-[2px]');
+        clickedElement.classList.add('blur-0', 'ring-2', 'ring-white/50');
+    }
+}
+const hoverVideos = document.querySelectorAll('.hover-video');
+
+hoverVideos.forEach(video => {
+    // Play on hover
+    video.addEventListener('mouseenter', function () {
+        this.play().catch(e => console.log('Autoplay blocked:', e));
+    });
+
+    // Pause + reset on leave
+    video.addEventListener('mouseleave', function () {
+        this.pause();
+        this.currentTime = 0;
+    });
+
+    // Dla urządzeń dotykowych - toggle play/pause
+    video.addEventListener('touchstart', function (e) {
+        if (this.paused) {
+            this.play();
+        } else {
+            this.pause();
+        }
+    }, { passive: true });
 });
 
 // --- ZINTEGROWANY SYSTEM SCROLLOWANIA ---
@@ -271,7 +316,28 @@ function setTheme(theme) {
         localStorage.setItem('theme', 'light');
     }
 }
-if (localStorage.theme === 'dark') document.documentElement.classList.add('dark');
+
+function toggleTheme(checkbox) {
+    setTheme(checkbox.checked ? 'dark' : 'light');
+}
+
+// Init State
+if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+    document.documentElement.classList.add('dark');
+    localStorage.setItem('theme', 'dark');
+} else {
+    document.documentElement.classList.remove('dark');
+}
+
+// Sync Toggle Button on Load
+window.addEventListener('load', () => {
+    const toggle = document.getElementById('theme-toggle');
+    if (toggle) {
+        toggle.checked = document.documentElement.classList.contains('dark');
+    }
+    // Also init icons/other stuff that might be needed 
+    if (typeof initSession === 'function') initSession();
+});
 
 
 // TRANSLATIONS DATA
@@ -289,8 +355,7 @@ const translations = {
         "about-title": "ABOUT ME",
         "about-text": "I am Mateusz Nowak, born and raised in Poland, in the Silesia region, but I currently live and work in Germany, in Saarland. It is here that I have acquired many of my skills, from roofing to electrical work, construction, and photovoltaic techniques, through electronics, to digital networking, which is now my main occupation.",
         "about-text2": "Instead of creating endless copies of information about myself on various social media, I will create a place here — About Me — where I write about what I create, what I do, who I am, what I like, and what interests me. I will show what tools I use daily, which will also give me the opportunity to bring everything together instead of having hundreds of open browser tabs.",
-        "label-inv": "My investments",
-        "label-trade": "Things I trade",
+
         "contact-title": "Contact",
         "website-goal": "This website is my digital legacy. It is a place where I document my projects and information. Instead of getting lost in the chaos of bookmarks, I am building my own knowledge operating system here.",
         "website-goal2": "It serves as my personal substitute for all social media feeds; a single link that defines my place on the internet.",
@@ -307,8 +372,7 @@ const translations = {
         "lib-author": "Author",
         "crypto-title": "Crypto Command Center",
         "crypto-locked": "Connect wallet to unlock your shitcoin portfolio...",
-        "crypto-portfolio-label": "Web3 Portfolio",
-        "crypto-market-label": "Market Tape"
+        "crypto-portfolio-label": "Web3 Portfolio"
     },
     de: {
         "nav-about": "Über mich",
@@ -323,8 +387,7 @@ const translations = {
         "about-title": "ÜBER MICH",
         "about-text": "Ich bin Mateusz Nowak, geboren und aufgewachsen in Polen, in der Region Schlesien, aber ich lebe und arbeite jetzt in Deutschland, im Saarland. Hier habe ich viele meiner Fähigkeiten erlernt, vom Dachdeckerhandwerk über Elektrik, Bau- und Photovoltaiktechnik, Elektronik bis hin zum Digital Networking, was heute meine Hauptbeschäftigung ist.",
         "about-text2": "Anstatt endlose Kopien von Informationen über mich in verschiedenen sozialen Medien zu erstellen, werde ich hier einen Ort schaffen — Über mich — an dem ich schreibe, was ich erschaffe, was ich tue, wer ich bin, was ich mag und was mich interessiert. Ich werde zeigen, welche Werkzeuge ich täglich benutze, was mir auch die Möglichkeit gibt, alles zusammenzuführen, anstatt Hunderte von offenen Browser-Tabs zu haben.",
-        "label-inv": "Meine Investitionen",
-        "label-trade": "Was ich handle",
+
         "contact-title": "Kontakt",
         "website-goal": "Diese Website ist mein digitales Vermächtnis. Es ist ein Ort, an dem ich meine Projekte und Informationen dokumentiere. Anstatt mich im Chaos der Lesezeichen zu verlieren, baue ich hier mein eigenes Wissensbetriebssystem auf.",
         "website-goal2": "Sie dient mir als persönlicher Ersatz für alle Social-Media-Feeds; ein einziger Link, der definierte meinen Platz im Internet.",
@@ -341,8 +404,7 @@ const translations = {
         "lib-author": "Autor",
         "crypto-title": "Krypto Kommandozentrale",
         "crypto-locked": "Verbinde dein Wallet, um dein Shitcoin-Portfolio freizuschalten...",
-        "crypto-portfolio-label": "Web3 Portfolio",
-        "crypto-market-label": "Markt-Ticker"
+        "crypto-portfolio-label": "Web3 Portfolio"
     },
 };
 
@@ -390,29 +452,6 @@ if (video && heroSection && heroText) {
     });
 }
 
-function updateGallery(newSrc, clickedElement) {
-    const mainImg = document.getElementById('main-gallery-img');
-
-    // 1. Zmiana głównego zdjęcia z efektem przejścia
-    mainImg.style.filter = 'blur(10px) opacity(0.5)';
-    setTimeout(() => {
-        mainImg.src = newSrc;
-        mainImg.style.filter = 'none';
-    }, 250);
-
-    // 2. Podświetlanie miniaturki
-    // Najpierw przywracamy blur wszystkim miniaturkom
-    document.querySelectorAll('.gallery-thumb').forEach(thumb => {
-        thumb.classList.add('blur-[2px]');
-        thumb.classList.remove('blur-0', 'ring-2', 'ring-white/50');
-    });
-
-    // Teraz usuwamy blur i dodajemy "blask" wybranej miniaturce
-    if (clickedElement) {
-        clickedElement.classList.remove('blur-[2px]');
-        clickedElement.classList.add('blur-0', 'ring-2', 'ring-white/50');
-    }
-}
 
 function scrollGallery(distance) {
     const slider = document.getElementById('thumbnail-slider');

@@ -119,11 +119,16 @@
                     </div>
                     <div class="border-t dark:border-gray-700 pt-4 text-[#413124] dark:text-white">
                         <p class="text-[10px] uppercase tracking-widest opacity-50 mb-2">Appearance</p>
-                        <div class="flex gap-4">
-                            <button onclick="setTheme('light')" class="hover:scale-110 transition"><i data-lucide="sun"
-                                    class="w-4 h-4"></i></button>
-                            <button onclick="setTheme('dark')" class="hover:scale-110 transition"><i data-lucide="moon"
-                                    class="w-4 h-4"></i></button>
+                        <div class="flex items-center gap-2">
+                            <i data-lucide="sun" class="w-3 h-3 opacity-50"></i>
+                            <label class="relative inline-flex items-center cursor-pointer">
+                                <input type="checkbox" id="theme-toggle" class="sr-only peer"
+                                    onchange="toggleTheme(this)">
+                                <div
+                                    class="w-9 h-5 bg-gray-200 peer-focus:outline-none rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all dark:border-gray-600 peer-checked:bg-[#413124]">
+                                </div>
+                            </label>
+                            <i data-lucide="moon" class="w-3 h-3 opacity-50"></i>
                         </div>
                     </div>
                 </div>
@@ -175,6 +180,18 @@
                     which is now my main occupation.
                 </p>
 
+                <p class="parallax-text drop-cap mb-40 text-translate text-lg md:text-xl leading-relaxed opacity-90"
+                    data-speed="0.6" data-key="website-goal">
+                    This website is my digital legacy. It is a place where I document my projects and information.
+                    Instead of getting lost in the chaos of bookmarks, I am building my own knowledge operating system
+                    here.
+                </p>
+                <p class="parallax-text drop-cap text-translate text-lg md:text-xl leading-relaxed opacity-90"
+                    data-speed="0.6" data-key="website-goal2">
+                    It serves as my personal substitute for all social media feeds;
+                    a single link that defines my place on the internet.
+                </p>
+
             </div>
 
             <div class="w-full lg:w-1/2 relative flex justify-center items-center" data-aos="fade-left">
@@ -186,7 +203,7 @@
                     <div id="parallax-gallery"
                         class="relative group overflow-hidden shadow-2xl transition-transform duration-500 ease-out will-change-transform">
                         <img id="main-gallery-img" src="me.png" alt="Mateusz"
-                            class="w-full h-[80vh] max-h-[900px] min-h-[400px] object-cover grayscale hover:grayscale-0 transition-all duration-1000 block">
+                            class="gallery-image w-full h-[80vh] max-h-[900px] min-h-[400px] object-cover grayscale hover:grayscale-0 transition-all duration-1000 block">
                         <div
                             class="absolute bottom-0 left-0 w-full p-4 z-20 bg-gradient-to-t from-black/90 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500">
 
@@ -230,21 +247,7 @@
         </div>
     </section>
 
-    <section id="website-goal"
-        class="min-h-[60vh] bg-white dark:bg-[#121212] text-[#413124] dark:text-gray-300 py-24 px-6 md:px-20 flex items-center transition-colors duration-500">
-        <div class="max-w-4xl mx-auto text-center">
-            <p class="parallax-text drop-cap text-translate mb-40 text-lg md:text-xl leading-relaxed opacity-90"
-                data-speed="0.6" data-key="website-goal">
-                This website is my digital legacy. It is a place where I document my projects and information.
-                Instead of getting lost in the chaos of bookmarks, I am building my own knowledge operating system here.
-            </p>
-            <p class="parallax-text drop-cap text-translate text-lg md:text-xl leading-relaxed opacity-90"
-                data-speed="0.6" data-key="website-goal2">
-                It serves as my personal substitute for all social media feeds;
-                a single link that defines my place on the internet.
-            </p>
-        </div>
-    </section>
+
 
     <section id="vibe-travel"
         class="min-h-screen bg-white dark:bg-[#121212] text-[#413124] dark:text-gray-300 py-24 px-6 md:px-20 flex items-center transition-colors duration-500 overflow-hidden">
@@ -408,7 +411,8 @@
                 </p>
             </div>
 
-            <div class="w-full lg:w-2/3 h-[500px] flex items-end gap-2 group/shelf" data-aos="fade-left">
+            <div class="w-full lg:w-2/3 h-[500px] flex items-end gap-2 group/shelf overflow-hidden rounded-xl"
+                data-aos="fade-left">
 
                 <div
                     class="relative h-[80%] flex-1 bg-[#2c2c2c] border-l border-white/10 transition-all duration-500 hover:flex-[4] group/book overflow-hidden cursor-help">
@@ -520,7 +524,7 @@
     </section>
 
     <section id="vibe-music"
-        class="min-h-screen bg-white dark:bg-[#121212] text-[#413124] dark:text-gray-300 py-24 px-6 md:px-20 flex items-center transition-colors duration-500 overflow-hidden">
+        class="min-h-screen bg-white dark:bg-[#121212] text-[#413124] dark:text-gray-300 py-24 px-6 md:px-20 flex items-center transition-colors duration-500 overflow-hidden relative z-10">
         <div class="max-w-screen-2xl mx-auto flex flex-col lg:flex-row-reverse items-center gap-16 w-full">
             <div class="w-full lg:w-1/2">
                 <p class="parallax-text drop-cap text-translate text-lg md:text-xl leading-relaxed opacity-90 mb-40"
@@ -579,7 +583,8 @@
                             <h4 id="track-name"
                                 class="text-xl md:text-2xl font-bold tracking-tight text-[#413124] dark:text-white">
                                 Currently Offline</h4>
-                            <p id="track-artist" class="text-sm opacity-60 mt-1 uppercase tracking-widest">Spotify API
+                            <p id="track-artist" class="text-sm opacity-60 mt-1 uppercase tracking-widest">Spotify
+                                API
                                 on hold</p>
 
                             <div class="mt-6 w-full h-1 bg-[#413124]/10 dark:bg-white/10 rounded-full overflow-hidden">
@@ -608,13 +613,17 @@
                 <p class="parallax-text drop-cap mb-20 text-translate text-lg md:text-xl leading-relaxed opacity-90"
                     data-speed="0.6" data-key="website-project-intro">
                     My most important current endeavor is the PV-Monitoring project.
-                    It is a tool I am developing independently to analyze the status of networks and energy systems in
+                    It is a tool I am developing independently to analyze the status of networks and energy systems
+                    in
                     real-time.
-                    This is where my experience in digital networking meets the practical application of monitoring. At
+                    This is where my experience in digital networking meets the practical application of monitoring.
+                    At
                     the same time,
-                    I dedicate my time to the continuous development of this website and exploring the possibilities of
+                    I dedicate my time to the continuous development of this website and exploring the possibilities
+                    of
                     the CachyOS distribution.
-                    Working with Arch Linux-based systems allows me to maximize environment optimization, which combined
+                    Working with Arch Linux-based systems allows me to maximize environment optimization, which
+                    combined
                     with
                     learning modern web technologies, gives me full control over my digital ecosystem.
                 </p>
@@ -680,23 +689,9 @@
                         data-key="crypto-title">
                         Crypto Command Center
                     </h2>
-                    <p class="text-translate text-sm tracking-widest uppercase opacity-60 mb-12"
-                        data-key="crypto-market-label">
-                        Market Tape
-                    </p>
 
-                    <div class="space-y-6">
-                        <div class="flex items-center gap-4 text-[#413124] dark:text-gray-400">
-                            <p data-key="label-inv"
-                                class="text-translate text-[10px] uppercase tracking-widest opacity-60">My investments
-                            </p>
-                        </div>
-                        <div class="flex items-center gap-4 text-[#413124] dark:text-gray-400">
-                            <p data-key="label-trade"
-                                class="text-translate text-[10px] uppercase tracking-widest opacity-60">Things I trade
-                            </p>
-                        </div>
-                    </div>
+
+
                 </div>
 
                 <!-- Right Side: Portfolio Dashboard -->
@@ -710,7 +705,9 @@
                             </h3>
                             <div class="flex items-center gap-2">
                                 <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
-                                <span class="text-[10px] uppercase tracking-widest opacity-50">Live Sync</span>
+                                <span
+                                    class="text-[10px] uppercase tracking-widest opacity-50 text-[#413124] dark:text-white">Live
+                                    Sync</span>
                             </div>
                         </div>
 
@@ -724,30 +721,14 @@
         </div>
     </section>
 
-    <section class="bg-[#1a1a1a] border-b border-[#413124]/30 py-2">
-        <div class="tradingview-widget-container">
-            <script type="text/javascript"
-                src="https://s3.tradingview.com/external-embedding/embed-widget-ticker-tape.js" async>
-                    {
-                        "symbols": [
-                            { "proName": "BITSTAMP:BTCUSD", "title": "Bitcoin" },
-                            { "proName": "BITSTAMP:XRPUSD", "title": "XRP" },
-                            { "proName": "OANDA:XAUUSD", "title": "Gold" },
-                            { "proName": "OANDA:XAGUSD", "title": "Silver" },
-                            { "proName": "FX_IDC:USDEUR", "title": "USD/EUR" },
-                            { "proName": "BITSTAMP:ETHUSD", "title": "Ethereum" }
-                        ],
-                            "showSymbolLogo": true, "colorTheme": "dark", "isTransparent": true, "displayMode": "adaptive", "locale": "en"
-                    }
-                </script>
-        </div>
-    </section>
+
 
     <!-- FOOTER -->
     <footer id="contact"
         class="bg-white dark:bg-black text-[#413124] dark:text-white py-20 px-6 text-center transition-colors duration-500">
         <div data-aos="zoom-in">
-            <h2 data-key="contact-title" class="text-translate font-charmonman text-5xl mb-12 uppercase">Contact</h2>
+            <h2 data-key="contact-title" class="text-translate font-charmonman text-5xl mb-12 uppercase">Contact
+            </h2>
 
             <a href="https://mateusznowak.x"
                 class="inline-block text-sm tracking-widest mb-12 transition-all duration-300 hover:opacity-50 hover:-translate-y-1 transform font-medium uppercase">
