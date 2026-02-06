@@ -47,8 +47,8 @@
         style="width: 0%; pointer-events: none;">
     </div>
     <nav
-        class="fixed top-0 w-full z-50 bg-white/90 dark:bg-black/90 backdrop-blur-md border-b border-gray-100 dark:border-gray-800 py-4 px-6 md:px-20 flex justify-between items-center text-[#413124] dark:text-white">
-        <div class="flex gap-8 items-center">
+        class="fixed top-0 w-full z-50 bg-white/90 dark:bg-black/90 backdrop-blur-md border-b border-gray-100 dark:border-gray-800 py-4 px-4 md:px-20 flex justify-between items-center text-[#413124] dark:text-white">
+        <div class="flex gap-2 md:gap-8 items-center">
             <a href="#hero-section" aria-label="Go to homepage"
                 class="hover:opacity-50 transition flex items-center gap-2">
                 <i data-lucide="home" class="w-5 h-5"></i>
@@ -722,6 +722,25 @@
     </section>
 
 
+
+    <section class="bg-[#1a1a1a] border-b border-[#413124]/30 py-2">
+        <div class="tradingview-widget-container">
+            <script type="text/javascript"
+                src="https://s3.tradingview.com/external-embedding/embed-widget-ticker-tape.js" async>
+                    {
+                        "symbols": [
+                            { "proName": "BITSTAMP:BTCUSD", "title": "Bitcoin" },
+                            { "proName": "BITSTAMP:XRPUSD", "title": "XRP" },
+                            { "proName": "OANDA:XAUUSD", "title": "Gold" },
+                            { "proName": "OANDA:XAGUSD", "title": "Silver" },
+                            { "proName": "FX_IDC:USDEUR", "title": "USD/EUR" },
+                            { "proName": "BITSTAMP:ETHUSD", "title": "Ethereum" }
+                        ],
+                            "showSymbolLogo": true, "colorTheme": "dark", "isTransparent": true, "displayMode": "adaptive", "locale": "en"
+                    }
+                </script>
+        </div>
+    </section>
 
     <!-- FOOTER -->
     <footer id="contact"
