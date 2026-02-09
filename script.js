@@ -6,13 +6,28 @@ tailwind.config = {
 // --- WEB3 WALLET CONNECTION ---
 let userAccount = null;
 
-// Mock Portfolio Data
-const portfolioData = [
-    { name: "MoonToken", symbol: "MOON", amount: "1,200,000", value: "$420.69", change: "+12.5%" },
-    { name: "PepeCloud", symbol: "PEPE", amount: "50,000,000", value: "$150.00", change: "-5.2%" },
-    { name: "SolarSafe", symbol: "SOLAR", amount: "10,500", value: "$280.10", change: "+2.1%" },
-    { name: "ShitCoinX", symbol: "SCX", amount: "999,999,999", value: "$0.01", change: "+6900%" }
-];
+// Network and Token Configuration
+const NETWORKS = {
+    '0x1': { name: 'Ethereum', symbol: 'ETH', coingeckoId: 'ethereum' },
+    '0x89': { name: 'Polygon', symbol: 'MATIC', coingeckoId: 'matic-network' }
+};
+
+const TRACKED_TOKENS = {
+    '0x1': [ // Mainnet
+        { address: '0xdac17f958d2ee523a2206206994597c13d831ec7', symbol: 'USDT', name: 'Tether', coingeckoId: 'tether', decimals: 6 },
+        { address: '0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48', symbol: 'USDC', name: 'USD Coin', coingeckoId: 'usd-coin', decimals: 6 },
+        { address: '0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2', symbol: 'WETH', name: 'Wrapped Ether', coingeckoId: 'wethereum', decimals: 18 }
+    ],
+    '0x89': [ // Polygon
+        { address: '0xc2132d05d31c914a87c6611c10748aeb04b58e8f', symbol: 'USDT', name: 'Tether (PoS)', coingeckoId: 'tether', decimals: 6 },
+        { address: '0x2791bca1f2de4661ed88a30c99a7a9449aa84174', symbol: 'USDC', name: 'USD Coin (PoS)', coingeckoId: 'usd-coin', decimals: 6 },
+        { address: '0x7ceb23fd6bc0ad5d406236119475151059739514', symbol: 'WETH', name: 'Wrapped Ether (PoS)', coingeckoId: 'wethereum', decimals: 18 }
+    ]
+};
+
+// State for real portfolio
+let portfolioItems = [];
+let isLoadingPortfolio = false;
 
 async function getProvider() {
     console.log("[Web3 Debug] Searching for provider...");
@@ -64,7 +79,7 @@ async function connectWallet() {
             userAccount = accounts[0];
             console.log('[Web3 Debug] Accounts linked:', userAccount);
             updateWalletUI(userAccount);
-            renderPortfolio();
+            fetchRealPortfolio();
         } catch (error) {
             console.error('[Web3 Debug] Connection error:', error);
             alert("Connection error: " + (error.message || "Unknown error"));
@@ -96,6 +111,79 @@ function updateWalletUI(account) {
     }
 }
 
+async function fetchRealPortfolio() {
+    if (!userAccount) return;
+    isLoadingPortfolio = true;
+    renderPortfolio();
+
+    try {
+        const provider = await getProvider();
+        const chainId = await provider.request({ method: 'eth_chainId' });
+        const network = NETWORKS[chainId] || { name: 'Unknown', symbol: 'ETH', coingeckoId: 'ethereum' };
+
+        // 1. Fetch Native Balance
+        const rawBalance = await provider.request({
+            method: 'eth_getBalance',
+            params: [userAccount, 'latest']
+        });
+        const nativeBalance = parseInt(rawBalance, 16) / Math.pow(10, 18);
+
+        // 2. Fetch Prices from CoinGecko
+        const tokensToTrack = TRACKED_TOKENS[chainId] || [];
+        const ids = [network.coingeckoId, ...tokensToTrack.map(t => t.coingeckoId)].join(',');
+        const priceRes = await fetch(`https://api.coingecko.com/api/v3/simple/price?ids=${ids}&vs_currencies=usd&include_24hr_change=true`);
+        const prices = await priceRes.json();
+
+        // 3. Construct Portfolio Array
+        const items = [];
+
+        // Add Native
+        const nativePrice = prices[network.coingeckoId]?.usd || 0;
+        const nativeChange = prices[network.coingeckoId]?.usd_24h_change || 0;
+        if (nativeBalance > 0) {
+            items.push({
+                name: network.name,
+                symbol: network.symbol,
+                amount: nativeBalance.toFixed(4),
+                value: `$${(nativeBalance * nativePrice).toFixed(2)}`,
+                change: (nativeChange >= 0 ? '+' : '') + nativeChange.toFixed(2) + '%'
+            });
+        }
+
+        // Add Tokens (Mini Scanner)
+        for (const token of tokensToTrack) {
+            try {
+                // ERC-20 balanceOf data hash: 0x70a08231 + padding + address
+                const data = '0x70a08231' + userAccount.substring(2).padStart(64, '0');
+                const rawTokenBalance = await provider.request({
+                    method: 'eth_call',
+                    params: [{ to: token.address, data }, 'latest']
+                });
+                const tokenBalance = parseInt(rawTokenBalance, 16) / Math.pow(10, token.decimals);
+
+                if (tokenBalance > 0.0001) {
+                    const price = prices[token.coingeckoId]?.usd || 0;
+                    const change = prices[token.coingeckoId]?.usd_24h_change || 0;
+                    items.push({
+                        name: token.name,
+                        symbol: token.symbol,
+                        amount: tokenBalance.toLocaleString(undefined, { maximumFractionDigits: 2 }),
+                        value: `$${(tokenBalance * price).toFixed(2)}`,
+                        change: (change >= 0 ? '+' : '') + change.toFixed(2) + '%'
+                    });
+                }
+            } catch (e) { console.error(`Failed to fetch ${token.symbol}:`, e); }
+        }
+
+        portfolioItems = items;
+    } catch (error) {
+        console.error("Portfolio fetch error:", error);
+    } finally {
+        isLoadingPortfolio = false;
+        renderPortfolio();
+    }
+}
+
 function renderPortfolio() {
     const container = document.getElementById('portfolio-list');
     if (!container) return;
@@ -105,7 +193,7 @@ function renderPortfolio() {
             <div class="text-center py-20 bg-black/5 dark:bg-white/5 rounded-2xl border border-dashed border-[#413124]/10 dark:border-white/10 text-[#413124] dark:text-white">
                 <i data-lucide="lock" class="w-12 h-12 mx-auto mb-4 opacity-20"></i>
                 <p class="text-translate opacity-50 italic text-sm" data-key="crypto-locked">
-                    Connect wallet to unlock your shitcoin portfolio...
+                    Connect wallet to unlock your real portfolio...
                 </p>
             </div>
         `;
@@ -113,9 +201,28 @@ function renderPortfolio() {
         return;
     }
 
+    if (isLoadingPortfolio) {
+        container.innerHTML = `
+            <div class="flex flex-col items-center justify-center py-20 gap-4 opacity-50">
+                <div class="w-10 h-10 border-4 border-emerald-500 border-t-transparent rounded-full animate-spin"></div>
+                <p class="text-xs uppercase tracking-widest font-bold">Fetching Live Data...</p>
+            </div>
+        `;
+        return;
+    }
+
+    if (portfolioItems.length === 0) {
+        container.innerHTML = `
+            <div class="text-center py-20">
+                <p class="opacity-50 italic text-sm">No assets found on this network.</p>
+            </div>
+        `;
+        return;
+    }
+
     container.innerHTML = `
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-            ${portfolioData.map(coin => `
+            ${portfolioItems.map(coin => `
                 <div class="flex items-center justify-between p-4 bg-white/5 backdrop-blur-md border border-white/10 rounded-2xl hover:bg-white/10 transition-all duration-500 group cursor-pointer">
                     <div class="flex items-center gap-4">
                         <div class="w-12 h-12 rounded-full bg-gradient-to-br from-gray-700 to-black flex items-center justify-center font-bold text-white border border-white/10 group-hover:border-emerald-500/50 transition-colors">
@@ -151,7 +258,7 @@ async function initSession() {
                 userAccount = accounts[0];
                 console.log("[Web3 Debug] Already connected:", userAccount);
                 updateWalletUI(userAccount);
-                renderPortfolio();
+                fetchRealPortfolio();
             } else {
                 console.log("[Web3 Debug] Not connected.");
                 renderPortfolio();
