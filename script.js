@@ -453,6 +453,7 @@ if (video && heroSection && heroText) {
 }
 
 
+
 function scrollGallery(distance) {
     const slider = document.getElementById('thumbnail-slider');
     slider.scrollBy({
@@ -460,3 +461,55 @@ function scrollGallery(distance) {
         behavior: 'smooth'
     });
 }
+
+// --- MOBILE MENU LOGIC ---
+document.addEventListener('DOMContentLoaded', () => {
+    const mobileBtn = document.getElementById('mobile-menu-btn');
+    const mobileMenu = document.getElementById('mobile-menu');
+    const mobileLinks = document.querySelectorAll('.mobile-link');
+    const icon = mobileBtn ? mobileBtn.querySelector('i') : null;
+
+    if (mobileBtn && mobileMenu) {
+        mobileBtn.addEventListener('click', () => {
+            const isOpen = mobileMenu.classList.contains('open');
+
+            if (isOpen) {
+                // Close
+                mobileMenu.classList.remove('open');
+                if (icon) {
+                    icon.setAttribute('data-lucide', 'menu');
+                    lucide.createIcons();
+                }
+            } else {
+                // Open
+                mobileMenu.classList.add('open');
+                if (icon) {
+                    icon.setAttribute('data-lucide', 'x');
+                    lucide.createIcons();
+                }
+            }
+        });
+
+        // Close menu when a link is clicked
+        mobileLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                mobileMenu.classList.remove('open');
+                if (icon) {
+                    icon.setAttribute('data-lucide', 'menu');
+                    lucide.createIcons();
+                }
+            });
+        });
+
+        // Close menu when clicking outside (on the main content)
+        document.addEventListener('click', (e) => {
+            if (!mobileMenu.contains(e.target) && !mobileBtn.contains(e.target) && mobileMenu.classList.contains('open')) {
+                mobileMenu.classList.remove('open');
+                if (icon) {
+                    icon.setAttribute('data-lucide', 'menu');
+                    lucide.createIcons();
+                }
+            }
+        });
+    }
+});
