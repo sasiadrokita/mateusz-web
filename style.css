@@ -134,3 +134,13 @@ body {
     opacity: 1 !important;
     visibility: visible !important;
 }
+
+/* Wallet Modal Animations */
+#wallet-modal.active {
+    display: flex;
+    opacity: 1;
+}
+
+#wallet-modal.active>div {
+    transform: scale(1);
+}

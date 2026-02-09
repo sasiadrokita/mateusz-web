@@ -86,15 +86,47 @@ function getMetaMaskFromProviders(baseProvider) {
 }
 
 async function connectWallet() {
-    console.log("[Web3 Debug] Connect clicked...");
-    const provider = await getProvider();
+    openWalletModal();
+}
+
+function openWalletModal() {
+    const modal = document.getElementById('wallet-modal');
+    if (modal) {
+        modal.classList.remove('hidden');
+        setTimeout(() => modal.classList.add('active'), 10);
+    }
+}
+
+function closeWalletModal() {
+    const modal = document.getElementById('wallet-modal');
+    if (modal) {
+        modal.classList.remove('active');
+        setTimeout(() => modal.classList.add('hidden'), 500);
+    }
+}
+
+async function connectCustomWallet(type) {
+    console.log(`[Web3 Debug] Connecting with: ${type}`);
+    closeWalletModal();
+
+    let provider = null;
+
+    if (type === 'metamask') {
+        provider = await getProvider();
+    } else if (type === 'coinbase') {
+        // Coinbase usually injects into window.ethereum or window.coinbaseWalletExtension
+        provider = window.coinbaseWalletExtension || window.ethereum;
+    } else if (type === 'walletconnect') {
+        alert("WalletConnect integration requires additional libraries. For now, please use MetaMask or Coinbase extensions.");
+        return;
+    }
 
     if (provider) {
-        console.log("[Web3 Debug] Provider found. isMetaMask:", provider.isMetaMask);
         try {
             const accounts = await provider.request({ method: 'eth_requestAccounts' });
             userAccount = accounts[0];
             console.log('[Web3 Debug] Accounts linked:', userAccount);
+            localStorage.setItem('wallet_type', type);
             updateWalletUI(userAccount);
             fetchRealPortfolio();
         } catch (error) {
@@ -102,16 +134,7 @@ async function connectWallet() {
             alert("Connection error: " + (error.message || "Unknown error"));
         }
     } else {
-        console.error("[Web3 Debug] NO provider detected after polling.");
-        const isLocal = window.location.protocol === 'file:';
-        let msg = 'Web3 Provider (MetaMask) not detected!\n\n';
-        if (isLocal) {
-            msg += '⚠️ You are using the "file://" protocol. Browser extensions often block local files.\n\n';
-            msg += 'SOLUTION:\n1. Open brave://extensions\n2. MetaMask -> Details -> Enable "Allow access to file URLs"\n3. Restart browser.';
-        } else {
-            msg += 'Please ensure MetaMask is installed and enabled.';
-        }
-        alert(msg);
+        alert(`${type.toUpperCase()} not found! Please install the extension.`);
     }
 }
 

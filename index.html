@@ -832,6 +832,90 @@
         </div>
     </footer>
 
+    <!-- WALLET SELECTION MODAL -->
+    <div id="wallet-modal"
+        class="fixed inset-0 z-[100] hidden flex items-center justify-center p-6 bg-black/60 backdrop-blur-sm transition-all duration-500 opacity-0">
+        <div
+            class="bg-white dark:bg-[#1a1a1a] w-full max-w-md rounded-[2.5rem] border border-[#413124]/10 dark:border-white/10 shadow-2xl relative overflow-hidden transform scale-95 transition-transform duration-500">
+            <!-- Modal Header -->
+            <div
+                class="p-8 border-b border-[#413124]/5 dark:border-white/5 flex items-center justify-between bg-gray-50/50 dark:bg-white/5">
+                <div>
+                    <h3 class="text-xl font-bold text-[#413124] dark:text-white">Connect Wallet</h3>
+                    <p class="text-[10px] uppercase tracking-[0.2em] opacity-50 text-[#413124] dark:text-white mt-1">
+                        Choose your preferred provider</p>
+                </div>
+                <button onclick="closeWalletModal()"
+                    class="w-10 h-10 rounded-full flex items-center justify-center bg-[#413124]/5 dark:bg-white/5 hover:bg-red-500/10 hover:text-red-500 transition-all duration-300">
+                    <i data-lucide="x" class="w-5 h-5"></i>
+                </button>
+            </div>
+
+            <!-- Modal Body -->
+            <div class="p-6 space-y-3">
+                <!-- MetaMask -->
+                <button onclick="connectCustomWallet('metamask')"
+                    class="w-full flex items-center justify-between p-4 bg-gray-50 dark:bg-white/5 border border-[#413124]/5 dark:border-white/5 rounded-2xl hover:border-emerald-500/50 hover:bg-emerald-500/5 transition-all duration-300 group">
+                    <div class="flex items-center gap-4">
+                        <div class="w-12 h-12 rounded-xl bg-orange-500/10 flex items-center justify-center">
+                            <img src="https://raw.githubusercontent.com/MetaMask/brand-resources/master/SVG/Metamask-logo.svg"
+                                alt="MetaMask" class="w-8 h-8">
+                        </div>
+                        <div class="text-left">
+                            <span
+                                class="block font-bold text-[#413124] dark:text-white group-hover:text-emerald-600 dark:group-hover:text-emerald-400">MetaMask</span>
+                            <span class="text-[10px] opacity-50">Browser Extension</span>
+                        </div>
+                    </div>
+                    <i data-lucide="chevron-right"
+                        class="w-4 h-4 opacity-30 group-hover:opacity-100 group-hover:translate-x-1 transition-all"></i>
+                </button>
+
+                <!-- Coinbase -->
+                <button onclick="connectCustomWallet('coinbase')"
+                    class="w-full flex items-center justify-between p-4 bg-gray-50 dark:bg-white/5 border border-[#413124]/5 dark:border-white/5 rounded-2xl hover:border-blue-500/50 hover:bg-blue-500/5 transition-all duration-300 group">
+                    <div class="flex items-center gap-4">
+                        <div class="w-12 h-12 rounded-xl bg-blue-600 flex items-center justify-center">
+                            <img src="https://avatars.githubusercontent.com/u/18060234?s=200&v=4" alt="Coinbase"
+                                class="w-8 h-8 rounded-lg">
+                        </div>
+                        <div class="text-left">
+                            <span
+                                class="block font-bold text-[#413124] dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400">Coinbase
+                                Wallet</span>
+                            <span class="text-[10px] opacity-50">Mobile or Browser</span>
+                        </div>
+                    </div>
+                    <i data-lucide="chevron-right"
+                        class="w-4 h-4 opacity-30 group-hover:opacity-100 group-hover:translate-x-1 transition-all"></i>
+                </button>
+
+                <!-- WalletConnect -->
+                <button onclick="connectCustomWallet('walletconnect')"
+                    class="w-full flex items-center justify-between p-4 bg-gray-50 dark:bg-white/5 border border-[#413124]/5 dark:border-white/5 rounded-2xl hover:border-blue-400/50 hover:bg-blue-400/5 transition-all duration-300 group">
+                    <div class="flex items-center gap-4">
+                        <div class="w-12 h-12 rounded-xl bg-blue-500/10 flex items-center justify-center">
+                            <img src="https://raw.githubusercontent.com/WalletConnect/walletconnect-assets/master/Logo/Blue%20(Default)/Logo.svg"
+                                alt="WalletConnect" class="w-8 h-8">
+                        </div>
+                        <div class="text-left">
+                            <span
+                                class="block font-bold text-[#413124] dark:text-white group-hover:text-blue-500 dark:group-hover:text-blue-300">WalletConnect</span>
+                            <span class="text-[10px] opacity-50">Any Mobile Wallet</span>
+                        </div>
+                    </div>
+                    <i data-lucide="chevron-right"
+                        class="w-4 h-4 opacity-30 group-hover:opacity-100 group-hover:translate-x-1 transition-all"></i>
+                </button>
+            </div>
+
+            <!-- Modal Footer -->
+            <div class="p-6 text-center">
+                <p class="text-[8px] uppercase tracking-[0.4em] opacity-30">Secure & Encrypted</p>
+            </div>
+        </div>
+    </div>
+
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script src="script.js"></script>
 </body>
