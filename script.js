@@ -9,7 +9,10 @@ let userAccount = null;
 // Network and Token Configuration
 const NETWORKS = {
     '0x1': { name: 'Ethereum', symbol: 'ETH', coingeckoId: 'ethereum' },
-    '0x89': { name: 'Polygon', symbol: 'MATIC', coingeckoId: 'matic-network' }
+    '0x89': { name: 'Polygon', symbol: 'MATIC', coingeckoId: 'matic-network' },
+    '0xa4b1': { name: 'Arbitrum', symbol: 'ETH', coingeckoId: 'ethereum' },
+    '0x38': { name: 'BSC', symbol: 'BNB', coingeckoId: 'binancecoin' },
+    '0x2105': { name: 'Base', symbol: 'ETH', coingeckoId: 'ethereum' }
 };
 
 const TRACKED_TOKENS = {
@@ -22,6 +25,20 @@ const TRACKED_TOKENS = {
         { address: '0xc2132d05d31c914a87c6611c10748aeb04b58e8f', symbol: 'USDT', name: 'Tether (PoS)', coingeckoId: 'tether', decimals: 6 },
         { address: '0x2791bca1f2de4661ed88a30c99a7a9449aa84174', symbol: 'USDC', name: 'USD Coin (PoS)', coingeckoId: 'usd-coin', decimals: 6 },
         { address: '0x7ceb23fd6bc0ad5d406236119475151059739514', symbol: 'WETH', name: 'Wrapped Ether (PoS)', coingeckoId: 'wethereum', decimals: 18 }
+    ],
+    '0xa4b1': [ // Arbitrum
+        { address: '0xfd086bc7cd5c481dcc9c85ebe478a1c0b69fcbb9', symbol: 'USDT', name: 'Tether', coingeckoId: 'tether', decimals: 6 },
+        { address: '0xaf88d065e77c8cC2239327C5EDb3A432268e5831', symbol: 'USDC', name: 'USD Coin', coingeckoId: 'usd-coin', decimals: 6 },
+        { address: '0x82af49447d8a07e3bd95bd0d56f35241523fbab1', symbol: 'WETH', name: 'Wrapped Ether', coingeckoId: 'wethereum', decimals: 18 }
+    ],
+    '0x38': [ // BSC
+        { address: '0x55d398326f99059ff775485246999027b3197955', symbol: 'USDT', name: 'Tether-Peg', coingeckoId: 'tether', decimals: 18 },
+        { address: '0x8ac76a51cc950d9822d68b83fe1ad97b32cd580d', symbol: 'USDC', name: 'USDC-Peg', coingeckoId: 'usd-coin', decimals: 18 },
+        { address: '0xbb4cdb9cbd36b01bd1cbaebf2de08d9173bc095c', symbol: 'WBNB', name: 'Wrapped BNB', coingeckoId: 'binancecoin', decimals: 18 }
+    ],
+    '0x2105': [ // Base
+        { address: '0x50c5725949a6f0c72e6c4a641f24049a917db0ec', symbol: 'USDC', name: 'USD Coin', coingeckoId: 'usd-coin', decimals: 6 },
+        { address: '0x4200000000000000000000000000000000000006', symbol: 'WETH', name: 'Wrapped Ether', coingeckoId: 'wethereum', decimals: 18 }
     ]
 };
 
@@ -223,19 +240,19 @@ function renderPortfolio() {
     container.innerHTML = `
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
             ${portfolioItems.map(coin => `
-                <div class="flex items-center justify-between p-4 bg-white/5 backdrop-blur-md border border-white/10 rounded-2xl hover:bg-white/10 transition-all duration-500 group cursor-pointer">
+                <div class="flex items-center justify-between p-4 bg-black/5 dark:bg-white/5 backdrop-blur-md border border-[#413124]/10 dark:border-white/10 rounded-2xl hover:bg-[#413124]/5 dark:hover:bg-white/10 transition-all duration-500 group cursor-pointer">
                     <div class="flex items-center gap-4">
-                        <div class="w-12 h-12 rounded-full bg-gradient-to-br from-gray-700 to-black flex items-center justify-center font-bold text-white border border-white/10 group-hover:border-emerald-500/50 transition-colors">
+                        <div class="w-12 h-12 rounded-full bg-gradient-to-br from-[#413124] to-black dark:from-gray-700 dark:to-black flex items-center justify-center font-bold text-white border border-white/10 group-hover:border-emerald-500/50 transition-colors">
                             ${coin.symbol[0]}
                         </div>
                         <div>
-                            <h4 class="font-bold text-white group-hover:text-emerald-400 transition-colors">${coin.name}</h4>
-                            <p class="text-[10px] uppercase tracking-widest opacity-50">${coin.amount} ${coin.symbol}</p>
+                            <h4 class="font-bold text-[#413124] dark:text-white group-hover:text-emerald-600 dark:group-hover:text-emerald-400 transition-colors">${coin.name}</h4>
+                            <p class="text-[10px] uppercase tracking-widest text-[#413124]/60 dark:text-white/50">${coin.amount} ${coin.symbol}</p>
                         </div>
                     </div>
                     <div class="text-right">
-                        <p class="font-bold text-white">${coin.value}</p>
-                        <p class="text-[10px] ${coin.change.startsWith('+') ? 'text-emerald-500' : 'text-red-500'} font-bold px-2 py-0.5 rounded-full bg-white/5 inline-block">
+                        <p class="font-bold text-[#413124] dark:text-white text-sm md:text-base">${coin.value}</p>
+                        <p class="text-[10px] ${coin.change.startsWith('+') ? 'text-emerald-600 dark:text-emerald-400' : 'text-red-600 dark:text-red-400'} font-bold px-2 py-0.5 rounded-full bg-[#413124]/5 dark:bg-white/5 inline-block">
                             ${coin.change}
                         </p>
                     </div>
