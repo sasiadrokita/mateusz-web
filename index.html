@@ -611,42 +611,69 @@
                 </div> -->
                 </div>
             </div>
-            <!-- Spotify Player -->
-            <div class="w-full lg:w-1/2 flex justify-center" data-aos="fade-left">
-                <div id="spotify-player"
-                    class="relative overflow-hidden group p-6 rounded-2xl border border-[#413124]/5 dark:border-white/10 bg-white/5 backdrop-blur-md shadow-2xl transition-all duration-500 hover:border-emerald-500/20">
-                    <div class="flex flex-col md:flex-row items-center gap-8">
-
-                        <div class="relative w-32 h-32 flex-shrink-0">
-                            <img id="track-art" src="placeholder-music.png" alt="Album Art"
-                                class="w-full h-full object-cover rounded-lg shadow-lg">
-                            <div id="music-bars" class="absolute -bottom-2 -right-2 flex gap-1 items-end h-8">
-                                <div class="w-1 bg-emerald-500 animate-[music-bar_0.8s_ease-in-out_infinite]"></div>
-                                <div class="w-1 bg-emerald-500 animate-[music-bar_1.2s_ease-in-out_infinite]"></div>
-                                <div class="w-1 bg-emerald-500 animate-[music-bar_1.0s_ease-in-out_infinite]"></div>
+            <!-- Curated Soundscapes (Replacement for Spotify) -->
+            <div class="w-full lg:w-1/2 flex flex-col gap-6" data-aos="fade-left">
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <!-- Vibe 1: Road Trip -->
+                    <div class="music-vibe-card p-6 rounded-2xl group cursor-pointer">
+                        <div class="flex justify-between items-start mb-4">
+                            <div class="p-3 rounded-xl bg-orange-500/10 text-orange-500">
+                                <i data-lucide="car" class="w-6 h-6"></i>
+                            </div>
+                            <div
+                                class="flex gap-[2px] items-end h-4 text-orange-500/40 group-hover:text-orange-500 transition-colors">
+                                <div class="pulse-bar pulse-bar-1"></div>
+                                <div class="pulse-bar pulse-bar-2"></div>
+                                <div class="pulse-bar pulse-bar-3"></div>
                             </div>
                         </div>
+                        <h4 class="font-bold text-lg mb-1 dark:text-white">Road Trip Energy</h4>
+                        <p class="text-xs opacity-60 uppercase tracking-widest">High-BPM Electronic & Rock</p>
+                    </div>
 
-                        <div class="flex-grow text-center md:text-left">
-                            <h4 id="track-name"
-                                class="text-xl md:text-2xl font-bold tracking-tight text-[#413124] dark:text-white">
-                                Currently Offline</h4>
-                            <p id="track-artist" class="text-sm opacity-60 mt-1 uppercase tracking-widest">Spotify
-                                API
-                                on hold</p>
-
-                            <div class="mt-6 w-full h-1 bg-[#413124]/10 dark:bg-white/10 rounded-full overflow-hidden">
-                                <div id="track-progress"
-                                    class="w-1/3 h-full bg-emerald-500/50 transition-all duration-1000"></div>
+                    <!-- Vibe 2: Focus & Code -->
+                    <div class="music-vibe-card p-6 rounded-2xl group cursor-pointer">
+                        <div class="flex justify-between items-start mb-4">
+                            <div class="p-3 rounded-xl bg-emerald-500/10 text-emerald-500">
+                                <i data-lucide="code" class="w-6 h-6"></i>
+                            </div>
+                            <div
+                                class="flex gap-[2px] items-end h-4 text-emerald-500/40 group-hover:text-emerald-500 transition-colors">
+                                <div class="pulse-bar pulse-bar-3"></div>
+                                <div class="pulse-bar pulse-bar-1"></div>
+                                <div class="pulse-bar pulse-bar-2"></div>
                             </div>
                         </div>
+                        <h4 class="font-bold text-lg mb-1 dark:text-white">Deep Focus</h4>
+                        <p class="text-xs opacity-60 uppercase tracking-widest">Lo-fi & Ambient Techno</p>
+                    </div>
 
-                        <div class="opacity-20 group-hover:opacity-100 transition-opacity duration-500">
-                            <svg class="w-8 h-8 fill-current text-emerald-500" viewBox="0 0 24 24">
-                                <path
-                                    d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.508 17.302c-.223.367-.704.482-1.071.259-2.987-1.825-6.747-2.239-11.175-1.229-.42.096-.84-.173-.936-.592-.096-.42.173-.84.592-.936 4.851-1.11 9.006-.633 12.33 1.401.368.223.483.704.26 1.071zm1.47-3.255c-.281.457-.881.606-1.338.325-3.42-2.102-8.634-2.712-12.678-1.485-.515.156-1.054-.139-1.21-.654-.157-.516.138-1.055.654-1.211 4.62-1.402 10.37-.714 14.248 1.668.457.281.607.881.325 1.338zm.126-3.414c-4.1-2.435-10.852-2.658-14.77-1.468-.629.191-1.294-.163-1.485-.792-.19-.629.163-1.294.792-1.485 4.505-1.367 11.977-1.104 16.7 1.696.565.335.753 1.063.418 1.628-.335.565-1.064.754-1.629.419z" />
-                            </svg>
+                    <!-- Vibe 3: After Hours -->
+                    <div class="music-vibe-card p-6 rounded-2xl group cursor-pointer border-brand/20">
+                        <div class="flex justify-between items-start mb-4">
+                            <div class="p-3 rounded-xl bg-purple-500/10 text-purple-500">
+                                <i data-lucide="moon" class="w-6 h-6"></i>
+                            </div>
+                            <div
+                                class="flex gap-[2px] items-end h-4 text-purple-500/40 group-hover:text-purple-500 transition-colors">
+                                <div class="pulse-bar pulse-bar-2"></div>
+                                <div class="pulse-bar pulse-bar-3"></div>
+                                <div class="pulse-bar pulse-bar-1"></div>
+                            </div>
                         </div>
+                        <h4 class="font-bold text-lg mb-1 dark:text-white">After Hours Chill</h4>
+                        <p class="text-xs opacity-60 uppercase tracking-widest">Jazz & Night Grooves</p>
+                    </div>
+
+                    <!-- Vibe 4: Discovery -->
+                    <div class="music-vibe-card p-6 rounded-2xl group cursor-pointer bg-brand/5">
+                        <div class="flex justify-between items-start mb-4">
+                            <div class="p-3 rounded-xl bg-gray-500/10 text-gray-500 dark:text-gray-400">
+                                <i data-lucide="search" class="w-6 h-6"></i>
+                            </div>
+                        </div>
+                        <h4 class="font-bold text-lg mb-1 dark:text-white">New Discoveries</h4>
+                        <p class="text-xs opacity-60 uppercase tracking-widest">Updated Weekly</p>
                     </div>
                 </div>
             </div>
