@@ -868,8 +868,10 @@
             <div
                 class="p-8 border-b border-[#413124]/5 dark:border-white/5 flex items-center justify-between bg-gray-50/50 dark:bg-white/5">
                 <div>
-                    <h3 class="text-xl font-bold text-[#413124] dark:text-white">Connect Wallet</h3>
-                    <p class="text-[10px] uppercase tracking-[0.2em] opacity-50 text-[#413124] dark:text-white mt-1">
+                    <h3 class="text-translate text-xl font-bold text-[#413124] dark:text-white" data-key="wallet-title">
+                        Connect Wallet</h3>
+                    <p class="text-translate text-[10px] uppercase tracking-[0.2em] opacity-50 text-[#413124] dark:text-white mt-1"
+                        data-key="wallet-subtitle">
                         Choose your preferred provider</p>
                 </div>
                 <button onclick="closeWalletModal()"
@@ -891,7 +893,8 @@
                         <div class="text-left">
                             <span
                                 class="block font-bold text-[#413124] dark:text-white group-hover:text-emerald-600 dark:group-hover:text-emerald-400">MetaMask</span>
-                            <span class="text-[10px] opacity-50">Browser Extension</span>
+                            <span class="text-translate text-[10px] opacity-60 dark:text-white/60"
+                                data-key="wallet-metamask-desc">Browser Extension</span>
                         </div>
                     </div>
                     <i data-lucide="chevron-right"
@@ -910,7 +913,8 @@
                             <span
                                 class="block font-bold text-[#413124] dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400">Coinbase
                                 Wallet</span>
-                            <span class="text-[10px] opacity-50">Mobile or Browser</span>
+                            <span class="text-translate text-[10px] opacity-60 dark:text-white/60"
+                                data-key="wallet-coinbase-desc">Mobile or Browser</span>
                         </div>
                     </div>
                     <i data-lucide="chevron-right"
@@ -928,7 +932,8 @@
                         <div class="text-left">
                             <span
                                 class="block font-bold text-[#413124] dark:text-white group-hover:text-blue-500 dark:group-hover:text-blue-300">WalletConnect</span>
-                            <span class="text-[10px] opacity-50">Any Mobile Wallet</span>
+                            <span class="text-translate text-[10px] opacity-60 dark:text-white/60"
+                                data-key="wallet-wc-desc">Any Mobile Wallet</span>
                         </div>
                     </div>
                     <i data-lucide="chevron-right"
@@ -938,7 +943,8 @@
 
             <!-- Modal Footer -->
             <div class="p-6 text-center">
-                <p class="text-[8px] uppercase tracking-[0.4em] opacity-30">Secure & Encrypted</p>
+                <p class="text-translate text-[8px] uppercase tracking-[0.4em] opacity-40 dark:text-white/40"
+                    data-key="wallet-secure">Secure & Encrypted</p>
             </div>
         </div>
     </div>

@@ -96,9 +96,23 @@ async function getProvider() {
 function getMetaMaskFromProviders(baseProvider) {
     if (!baseProvider) return null;
     if (baseProvider.providers) {
-        return baseProvider.providers.find(p => p.isMetaMask) || baseProvider.providers[0];
+        return baseProvider.providers.find(p => p.isMetaMask) || null;
     }
-    return baseProvider;
+    return baseProvider.isMetaMask ? baseProvider : null;
+}
+
+function getCoinbaseProvider() {
+    // 1. Check explicit extension
+    if (window.coinbaseWalletExtension) return window.coinbaseWalletExtension;
+
+    // 2. Check injected window.ethereum
+    const eth = window.ethereum;
+    if (!eth) return null;
+
+    if (eth.providers) {
+        return eth.providers.find(p => p.isCoinbaseWallet) || null;
+    }
+    return eth.isCoinbaseWallet ? eth : null;
 }
 
 async function connectWallet() {
@@ -130,8 +144,7 @@ async function connectCustomWallet(type) {
     if (type === 'metamask') {
         provider = await getProvider();
     } else if (type === 'coinbase') {
-        // Coinbase usually injects into window.ethereum or window.coinbaseWalletExtension
-        provider = window.coinbaseWalletExtension || window.ethereum;
+        provider = getCoinbaseProvider();
     } else if (type === 'walletconnect') {
         alert("WalletConnect integration requires additional libraries. For now, please use MetaMask or Coinbase extensions.");
         return;
@@ -573,8 +586,14 @@ const translations = {
         "lib-title": "Library",
         "lib-author": "Author",
         "crypto-title": "Crypto Command Center",
-        "crypto-locked": "Connect wallet to unlock your shitcoin portfolio...",
-        "crypto-portfolio-label": "Web3 Portfolio"
+        "crypto-locked": "Connect wallet to unlock your real portfolio...",
+        "crypto-portfolio-label": "Web3 Portfolio",
+        "wallet-title": "Connect Wallet",
+        "wallet-subtitle": "Choose your preferred provider",
+        "wallet-metamask-desc": "Browser Extension (MetaMask)",
+        "wallet-coinbase-desc": "Mobile or Browser (Coinbase)",
+        "wallet-wc-desc": "Any Mobile Wallet (WalletConnect)",
+        "wallet-secure": "Secure & Encrypted"
     },
     de: {
         "nav-about": "Über mich",
@@ -605,8 +624,14 @@ const translations = {
         "lib-title": "Bibliothek",
         "lib-author": "Autor",
         "crypto-title": "Krypto Kommandozentrale",
-        "crypto-locked": "Verbinde dein Wallet, um dein Shitcoin-Portfolio freizuschalten...",
-        "crypto-portfolio-label": "Web3 Portfolio"
+        "crypto-locked": "Verbinde dein Wallet, um dein Portfolio freizuschalten...",
+        "crypto-portfolio-label": "Web3 Portfolio",
+        "wallet-title": "Wallet verbinden",
+        "wallet-subtitle": "Wähle deinen bevorzugten Anbieter",
+        "wallet-metamask-desc": "Browser-Erweiterung (MetaMask)",
+        "wallet-coinbase-desc": "Mobile oder Browser (Coinbase)",
+        "wallet-wc-desc": "Jedes Mobile Wallet (WalletConnect)",
+        "wallet-secure": "Sicher & Verschlüsselt"
     },
 };
 
