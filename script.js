@@ -308,12 +308,15 @@ function copyEmail(element) {
 
 // DARK MODE LOGIC
 function setTheme(theme) {
+    const toggle = document.getElementById('theme-toggle');
     if (theme === 'dark') {
         document.documentElement.classList.add('dark');
         localStorage.setItem('theme', 'dark');
+        if (toggle) toggle.checked = true;
     } else {
         document.documentElement.classList.remove('dark');
         localStorage.setItem('theme', 'light');
+        if (toggle) toggle.checked = false;
     }
 }
 
@@ -330,12 +333,12 @@ if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.match
 }
 
 // Sync Toggle Button on Load
-window.addEventListener('load', () => {
+// Initial Toggle Sync
+document.addEventListener('DOMContentLoaded', () => {
     const toggle = document.getElementById('theme-toggle');
     if (toggle) {
         toggle.checked = document.documentElement.classList.contains('dark');
     }
-    // Also init icons/other stuff that might be needed 
     if (typeof initSession === 'function') initSession();
 });
 
