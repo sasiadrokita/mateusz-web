@@ -19,26 +19,42 @@ const TRACKED_TOKENS = {
     '0x1': [ // Mainnet
         { address: '0xdac17f958d2ee523a2206206994597c13d831ec7', symbol: 'USDT', name: 'Tether', coingeckoId: 'tether', decimals: 6 },
         { address: '0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48', symbol: 'USDC', name: 'USD Coin', coingeckoId: 'usd-coin', decimals: 6 },
-        { address: '0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2', symbol: 'WETH', name: 'Wrapped Ether', coingeckoId: 'wethereum', decimals: 18 }
+        { address: '0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2', symbol: 'WETH', name: 'Wrapped Ether', coingeckoId: 'wethereum', decimals: 18 },
+        { address: '0x514910771af9ca656af840dff83e8264ecf986ca', symbol: 'LINK', name: 'Chainlink', coingeckoId: 'chainlink', decimals: 18 },
+        { address: '0x1f9840a85d5af5bf1d1762f925bdaddc4201f984', symbol: 'UNI', name: 'Uniswap', coingeckoId: 'uniswap', decimals: 18 },
+        { address: '0x7d1afa7b718fb893db30a3abc0cfc608aacfebb0', symbol: 'MATIC', name: 'Matic Token', coingeckoId: 'matic-network', decimals: 18 },
+        { address: '0x6982508145454ce325ddbe47a25d4ec3d2311933', symbol: 'PEPE', name: 'Pepe', coingeckoId: 'pepe', decimals: 18 },
+        { address: '0xae7ab96520de3a18e5e111b5eaab095312d7fe84', symbol: 'stETH', name: 'Lido Staked ETH', coingeckoId: 'staked-ether', decimals: 18 }
     ],
     '0x89': [ // Polygon
         { address: '0xc2132d05d31c914a87c6611c10748aeb04b58e8f', symbol: 'USDT', name: 'Tether (PoS)', coingeckoId: 'tether', decimals: 6 },
         { address: '0x2791bca1f2de4661ed88a30c99a7a9449aa84174', symbol: 'USDC', name: 'USD Coin (PoS)', coingeckoId: 'usd-coin', decimals: 6 },
-        { address: '0x7ceb23fd6bc0ad5d406236119475151059739514', symbol: 'WETH', name: 'Wrapped Ether (PoS)', coingeckoId: 'wethereum', decimals: 18 }
+        { address: '0x7ceb23fd6bc0ad5d406236119475151059739514', symbol: 'WETH', name: 'Wrapped Ether (PoS)', coingeckoId: 'wethereum', decimals: 18 },
+        { address: '0x53e0bca35ec356bd5dddfebbd1fc0fd03fabad39', symbol: 'LINK', name: 'Chainlink (PoS)', coingeckoId: 'chainlink', decimals: 18 },
+        { address: '0xb33ead24886911553042277d1f70d212a4336cff', symbol: 'GRT', name: 'The Graph (PoS)', coingeckoId: 'the-graph', decimals: 18 },
+        { address: '0x0d500b1d8e8ef31e21c99d1db9a6444d3adf1270', symbol: 'WMATIC', name: 'Wrapped MATIC', coingeckoId: 'matic-network', decimals: 18 }
     ],
     '0xa4b1': [ // Arbitrum
         { address: '0xfd086bc7cd5c481dcc9c85ebe478a1c0b69fcbb9', symbol: 'USDT', name: 'Tether', coingeckoId: 'tether', decimals: 6 },
         { address: '0xaf88d065e77c8cC2239327C5EDb3A432268e5831', symbol: 'USDC', name: 'USD Coin', coingeckoId: 'usd-coin', decimals: 6 },
-        { address: '0x82af49447d8a07e3bd95bd0d56f35241523fbab1', symbol: 'WETH', name: 'Wrapped Ether', coingeckoId: 'wethereum', decimals: 18 }
+        { address: '0x82af49447d8a07e3bd95bd0d56f35241523fbab1', symbol: 'WETH', name: 'Wrapped Ether', coingeckoId: 'wethereum', decimals: 18 },
+        { address: '0x912ce59144191c1204e64559fe8253a0e49e6548', symbol: 'ARB', name: 'Arbitrum', coingeckoId: 'arbitrum', decimals: 18 },
+        { address: '0xf97f4df75117a78c1a5a0dbb814af92458539fb4', symbol: 'LINK', name: 'Chainlink', coingeckoId: 'chainlink', decimals: 18 },
+        { address: '0x2f2a2543b76a4166549f7aab2e7540a576218441', symbol: 'WBTC', name: 'Wrapped BTC', coingeckoId: 'wrapped-bitcoin', decimals: 8 }
     ],
     '0x38': [ // BSC
         { address: '0x55d398326f99059ff775485246999027b3197955', symbol: 'USDT', name: 'Tether-Peg', coingeckoId: 'tether', decimals: 18 },
         { address: '0x8ac76a51cc950d9822d68b83fe1ad97b32cd580d', symbol: 'USDC', name: 'USDC-Peg', coingeckoId: 'usd-coin', decimals: 18 },
-        { address: '0xbb4cdb9cbd36b01bd1cbaebf2de08d9173bc095c', symbol: 'WBNB', name: 'Wrapped BNB', coingeckoId: 'binancecoin', decimals: 18 }
+        { address: '0xbb4cdb9cbd36b01bd1cbaebf2de08d9173bc095c', symbol: 'WBNB', name: 'Wrapped BNB', coingeckoId: 'binancecoin', decimals: 18 },
+        { address: '0x7130d2a12b9bcbfae4f2634d864a1ee1ce3ead9c', symbol: 'BTCB', name: 'Binance-Peg BTCB', coingeckoId: 'bitcoin-anywrap', decimals: 18 },
+        { address: '0x2170ed0880ac9a755fd29b2688956bd959f933f8', symbol: 'ETH', name: 'Binance-Peg Ethereum', coingeckoId: 'ethereum', decimals: 18 },
+        { address: '0x0e09fabb73bd3ade0a17ecc321fd13a19e81ce82', symbol: 'CAKE', name: 'PancakeSwap Token', coingeckoId: 'pancakeswap-token', decimals: 18 }
     ],
     '0x2105': [ // Base
         { address: '0x50c5725949a6f0c72e6c4a641f24049a917db0ec', symbol: 'USDC', name: 'USD Coin', coingeckoId: 'usd-coin', decimals: 6 },
-        { address: '0x4200000000000000000000000000000000000006', symbol: 'WETH', name: 'Wrapped Ether', coingeckoId: 'wethereum', decimals: 18 }
+        { address: '0x4200000000000000000000000000000000000006', symbol: 'WETH', name: 'Wrapped Ether', coingeckoId: 'wethereum', decimals: 18 },
+        { address: '0x833589fcd6edb6e08f4c7c32d4f71b54bda02913', symbol: 'USDC', name: 'USDC (Base)', coingeckoId: 'usd-coin', decimals: 6 },
+        { address: '0x4ed4e28c5848f1ad645c01c9465d05b9b0d70851', symbol: 'DEGEN', name: 'Degen', coingeckoId: 'degen-base', decimals: 18 }
     ]
 };
 
@@ -140,14 +156,50 @@ async function connectCustomWallet(type) {
 
 function updateWalletUI(account) {
     const btn = document.getElementById('connect-wallet-btn');
-    if (btn && account) {
-        btn.innerHTML = `
-            <i data-lucide="check-circle" class="w-4 h-4 text-emerald-500"></i>
-            ${account.substring(0, 6)}...${account.substring(account.length - 4)}
-        `;
-        btn.classList.add('border-emerald-500/50');
-        btn.onclick = null;
+    if (btn) {
+        if (account) {
+            btn.innerHTML = `
+                <i data-lucide="check-circle" class="w-4 h-4 text-emerald-500"></i>
+                <span class="wallet-address hidden sm:inline">${account.substring(0, 6)}...${account.substring(account.length - 4)}</span>
+                <i data-lucide="log-out" class="w-3 h-3 opacity-0 group-hover:opacity-100 transition-opacity ml-1 hidden sm:inline"></i>
+            `;
+            btn.classList.add('border-emerald-500/50', 'group');
+            // Change title for tooltip effect
+            btn.title = "Click to disconnect";
+            btn.onclick = (e) => {
+                e.preventDefault();
+                disconnectWallet();
+            };
+        } else {
+            btn.innerHTML = `
+                <i data-lucide="wallet" class="w-4 h-4"></i>
+                <span class="hidden sm:inline">Connect Wallet</span>
+            `;
+            btn.classList.remove('border-emerald-500/50', 'group');
+            btn.title = "";
+            btn.onclick = connectWallet;
+        }
         lucide.createIcons();
+    }
+}
+
+async function disconnectWallet() {
+    console.log("[Web3 Debug] Disconnecting wallet...");
+    userAccount = null;
+    portfolioItems = [];
+    localStorage.removeItem('wallet_type');
+
+    // Some providers might support a way to signal disconnect, but usually we just clear state
+    updateWalletUI(null);
+    renderPortfolio();
+
+    // Small refresh feel
+    const container = document.getElementById('portfolio-list');
+    if (container) {
+        container.style.opacity = '0';
+        setTimeout(() => {
+            container.style.opacity = '1';
+        }, 300);
     }
 }
 
