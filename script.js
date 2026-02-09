@@ -463,11 +463,41 @@ function scrollGallery(distance) {
 }
 
 // --- MOBILE MENU LOGIC ---
+// --- MOBILE MENU & SETTINGS TOGGLE ---
 document.addEventListener('DOMContentLoaded', () => {
     const mobileBtn = document.getElementById('mobile-menu-btn');
     const mobileMenu = document.getElementById('mobile-menu');
     const mobileLinks = document.querySelectorAll('.mobile-link');
     const icon = mobileBtn ? mobileBtn.querySelector('i') : null;
+
+    // Settings Toggle (especially for mobile/touch)
+    const settingsBtn = document.querySelector('.relative.group > button');
+    const settingsDropdown = settingsBtn ? settingsBtn.nextElementSibling : null;
+
+    if (settingsBtn && settingsDropdown) {
+        settingsBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            const isVisible = !settingsDropdown.classList.contains('invisible');
+
+            // Toggle visibility using classes that override group-hover if needed, 
+            // but here we just manually toggle the classes tailwind uses
+            if (isVisible) {
+                settingsDropdown.classList.add('opacity-0', 'invisible');
+                settingsDropdown.classList.remove('opacity-100', 'visible');
+            } else {
+                settingsDropdown.classList.remove('opacity-0', 'invisible');
+                settingsDropdown.classList.add('opacity-100', 'visible');
+            }
+        });
+
+        // Close dropdown when clicking outside
+        document.addEventListener('click', (e) => {
+            if (!settingsDropdown.contains(e.target) && !settingsBtn.contains(e.target)) {
+                settingsDropdown.classList.add('opacity-0', 'invisible');
+                settingsDropdown.classList.remove('opacity-100', 'visible');
+            }
+        });
+    }
 
     if (mobileBtn && mobileMenu) {
         mobileBtn.addEventListener('click', () => {
@@ -501,7 +531,7 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         });
 
-        // Close menu when clicking outside (on the main content)
+        // Close menu when clicking outside
         document.addEventListener('click', (e) => {
             if (!mobileMenu.contains(e.target) && !mobileBtn.contains(e.target) && mobileMenu.classList.contains('open')) {
                 mobileMenu.classList.remove('open');
