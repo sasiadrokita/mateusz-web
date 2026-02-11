@@ -123,7 +123,10 @@ function openWalletModal() {
     const modal = document.getElementById('wallet-modal');
     if (modal) {
         modal.classList.remove('hidden');
-        setTimeout(() => modal.classList.add('active'), 10);
+        setTimeout(() => {
+            modal.classList.add('active');
+            if (typeof lucide !== 'undefined') lucide.createIcons();
+        }, 10);
     }
 }
 
@@ -574,7 +577,7 @@ const translations = {
         "contact-title": "Contact",
         "website-goal": "This website is my digital legacy. It is a place where I document my projects and information. Instead of getting lost in the chaos of bookmarks, I am building my own knowledge operating system here.",
         "website-goal2": "It serves as my personal substitute for all social media feeds; a single link that defines my place on the internet.",
-        "website-project-intro": "My most important current endeavor is the PV-Monitoring project. It is a tool I am developing independently to analyze the status of networks and energy systems in real-time. This is where my experience in digital networking meets the practical application of monitoring. At the same time, I dedicate my time to the continuous development of this website and exploring the possibilities of the CachyOS distribution. Working with Arch Linux-based systems allows me to maximize environment optimization, which combined with learning modern web technologies, gives me full control over my digital ecosystem.",
+        "website-project-intro": "My definitive focus is currently directed toward the PV-Monitoring project—an independent technical initiative designed to analyze network and energy system states in real-time. This project represents the confluence of my digital networking expertise and the practical demands of infrastructure monitoring. Simultaneously, I am dedicated to the evolution of this digital workspace and exploring the performance-driven ecosystem of CachyOS. Leveraging Arch Linux-based environments allows for extreme optimization, providing the control and efficiency necessary for modern technological mastery.",
         "vibe-travel": "Travel is my way of resetting the compass. I find my peace in the heights—from the familiar trails of the Polish Beskids and the granite peaks of the Tatras, to the misty Vosges and the technical challenge of Alpine via ferratas. These landscapes are where I test my limits. Currently, I am scaling this passion into a larger vision: the first chapters of a global journey with a Round the World ticket, with the raw wilderness of Norway and Iceland already mapped out as my first milestones.",
         "vibe-sport": "Water is my ultimate element. Training for a triathlon as an amateur is where I build the discipline that translates into every other aspect of my life. Swimming is the time when I completely disconnect from notifications and code—it is just me, the rhythm of my breath, and the water. This physical effort is the reset I need to keep my mind sharp for complex networking challenges.",
         "vibe-nutrition": "Sport, combined with proper nutrition, allows me to stay in peak shape despite being 37. It's about more than just calories; it's about fueling the body and mind for the long run, both in training and in the technical world of crypto and tech.",
@@ -612,7 +615,7 @@ const translations = {
         "contact-title": "Kontakt",
         "website-goal": "Diese Website ist mein digitales Vermächtnis. Es ist ein Ort, an dem ich meine Projekte und Informationen dokumentiere. Anstatt mich im Chaos der Lesezeichen zu verlieren, baue ich hier mein eigenes Wissensbetriebssystem auf.",
         "website-goal2": "Sie dient mir als persönlicher Ersatz für alle Social-Media-Feeds; ein einziger Link, der definierte meinen Platz im Internet.",
-        "website-project-intro": "Mein wichtigstes aktuelles Vorhaben ist das Projekt PV-Monitoring. Es ist ein Tool, das ich eigenständig entwickle, um den Status von Netzwerken und Energiesystemen in Echtzeit zu analysieren. Hier trifft meine Erfahrung im Digital Networking auf die praktische Anwendung von Monitoring. Parallel dazu widme ich meine Zeit der kontinuierlichen Weiterentwicklung dieser Website und der Erkundung der Möglichkeiten der CachyOS-Distribution. Die Arbeit mit Arch Linux-basierten Systemen ermöglicht mir eine maximale Optimierung der Umgebung, was mir in Kombination mit dem Erlernen moderner Webtechnologien die volle Kontrolle über mein digitales Ökosystem gibt.",
+        "website-project-intro": "Mein absoluter Fokus liegt derzeit auf dem Projekt PV-Monitoring – einer eigenständigen technischen Initiative zur Echtzeitanalyse von Netzwerk- und Energiesystemzuständen. Dieses Projekt bildet die Schnittstelle zwischen meiner Expertise in der digitalen Vernetzung und den praktischen Anforderungen an das Monitoring moderner Infrastrukturen. Parallel dazu widme ich mich der Weiterentwicklung dieses digitalen Arbeitsbereichs und erforsche das leistungsorientierte Ökosystem von CachyOS. Die Nutzung von Arch Linux-basierten Umgebungen ermöglicht eine extreme Optimierung und bietet die Kontrolle und Effizienz, die für technologische Spitzenleistungen erforderlich sind.",
         "vibe-travel": "Reisen ist für mich wie das Neuausrichten eines Kompasses. Meinen Frieden finde ich in der Höhe – von den vertrauten Pfaden der polnischen Beskiden und den Granitgipfeln der Tatra bis hin zu den nebligen Vogesen und der technischen Herausforderung alpiner Klettersteige. In diesen Landschaften teste ich meine Grenzen. Derzeit entwickle ich diese Leidenschaft zu einer größeren Vision weiter: die ersten Kapitel einer Weltreise mit einem Round-the-World-Ticket, wobei die unberührte Wildnis von Norwegen und Island bereits als meine ersten Meilensteine fest eingeplant sind.",
         "vibe-sport": "Wasser ist mein ultimatives Element. Training für ein Triathlon als Amateure ist, wo ich die Disziplin aufbaue, die in alle anderen Aspekte meines Lebens übertragen wird. Schwimmen ist die Zeit, in der ich mich komplett von Benachrichtigungen und Code abtrenne – es ist nur ich, der Rhythmus meines Atems und das Wasser. Dieser physische Aufwand ist der Reset, den ich brauche, um meinen Geist für komplexe Networking-Herausforderungen schärfer zu halten.",
         "vibe-nutrition": "Sport, kombiniert mit richtiger Ernährung, ermöglicht es mir, trotz meines Alters von 37 in Topform zu bleiben. Es geht um mehr als nur Kalorien; es geht darum, Körper und Geist für die lange Strecke zu stärken, sowohl im Training als auch in der technischen Welt von Krypto und Technologie.",
@@ -629,7 +632,7 @@ const translations = {
         "wallet-title": "Wallet verbinden",
         "wallet-subtitle": "Wähle deinen bevorzugten Anbieter",
         "wallet-metamask-desc": "Browser-Erweiterung (MetaMask)",
-        "wallet-coinbase-desc": "Mobile oder Browser (Coinbase)",
+        "wallet-coinbase-desc": "Mobil oder Browser (Coinbase)",
         "wallet-wc-desc": "Jedes Mobile Wallet (WalletConnect)",
         "wallet-secure": "Sicher & Verschlüsselt"
     },
